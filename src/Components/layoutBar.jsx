@@ -1,8 +1,12 @@
+"use client"
 import React from 'react'
 
 const LayoutBar = ({data, update}) => {
   return (
-    <div>LayoutBar</div>
+    <div>
+      <br />
+      layout
+    </div>
   )
 }
 

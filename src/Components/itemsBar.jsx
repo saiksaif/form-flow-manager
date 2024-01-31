@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import AddStep from './items/addStep'
 import AddInput from './items/addInput'
