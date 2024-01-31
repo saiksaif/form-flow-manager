@@ -36,7 +36,9 @@ const FormManager = () => {
             <div className='border overflow-y-auto'>
                 JSON Bar
                 <br />
-                <JsonBar json={startJson} name={"Form"} />
+                <div className='text-left'>
+                    <JsonBar json={startJson} name={"Form"} />
+                </div>
             </div>
         </div>
     </div>
