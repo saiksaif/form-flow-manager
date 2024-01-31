@@ -9,7 +9,7 @@ const AddStep = ({ data, update }) => {
     // Perform any necessary logic with the inputValue
     // For example, you can update the data array
     // and then close the modal
-    update([...data, inputValue]);
+    // update([...data, inputValue]);
     setShowPopup(false);
   };
 

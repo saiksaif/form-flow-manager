@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import FormSettings from '@/Components/formSettings'
 import JsonBar from '@/Components/jsonBar'
 import ItemsBar from '@/Components/itemsBar'
 import LayoutBar from '@/Components/layoutBar'
@@ -22,6 +23,11 @@ const FormManager = () => {
   return (
     <div>
         <p className='text-center font-semibold my-4'>Form Manager</p>
+        <hr />
+        <div>
+            <FormSettings />
+            <br />
+        </div>
         <div className='grid grid-cols-3 min-h-[50vh] text-center'>
             <div className='border'>
                 Items Bar
