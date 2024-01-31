@@ -25,7 +25,7 @@ const FormManager = () => {
         <p className='text-center font-semibold my-4'>Form Manager</p>
         <hr />
         <div>
-            <FormSettings />
+            <FormSettings data={startJson} update={setStartJson} />
             <br />
         </div>
         <div className='grid grid-cols-3 min-h-[50vh] text-center'>
