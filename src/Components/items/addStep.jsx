@@ -1,13 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Modal, Input, Button } from 'antd';
 
-const AddStep = ({data, update}) => {
+const AddStep = ({ data, update }) => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleAddStep = () => {
+    // Perform any necessary logic with the inputValue
+    // For example, you can update the data array
+    // and then close the modal
+    update([...data, inputValue]);
+    setShowPopup(false);
+  };
+
   return (
     <div>
-        <button className='border rounded bg-gray-300 min-w-[150px]'>Add Step</button>
-        
-        {/* Insert Modal here and relevent functions/fields inside the modal */}
-    </div>
-  )
-}
+      <button className='border rounded bg-gray-300 min-w-[150px]' onClick={() => setShowPopup(true)}>
+        Add Step
+      </button>
 
-export default AddStep
+      <Modal
+        title="Add Step"
+        open={showPopup}
+        onOk={handleAddStep}
+        onCancel={() => setShowPopup(false)}
+      >
+        <Input
+          placeholder="Enter step name"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+      </Modal>
+    </div>
+  );
+};
+
+export default AddStep;
