@@ -11,6 +11,7 @@ const AddStep = ({ data, update }) => {
     // and then close the modal
     // update([...data, inputValue]);
     setShowPopup(false);
+    setInputValue('');
   };
 
   return (
@@ -24,6 +25,9 @@ const AddStep = ({ data, update }) => {
         open={showPopup}
         onOk={handleAddStep}
         onCancel={() => setShowPopup(false)}
+        okText={'Add'}
+        okButtonProps={{ style: { backgroundColor: 'blue', color: 'white' } }}
+
       >
         <Input
           placeholder="Enter step name"
