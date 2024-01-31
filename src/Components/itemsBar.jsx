@@ -1,8 +1,13 @@
 import React from 'react'
+import AddStep from './items/addStep'
+import AddInput from './items/addInput'
 
 const ItemsBar = ({data, update}) => {
   return (
-    <div>ItemsBar</div>
+    <div className='flex flex-col gap-3'>
+        <AddStep data={data} update={update} />
+        <AddInput data={data} update={update} />
+    </div>
   )
 }
 
