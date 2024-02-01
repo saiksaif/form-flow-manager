@@ -18,7 +18,7 @@ const AddInput = ({data, update}) => {
 
   return (
     <div>
-        <button className='border rounded bg-gray-300 min-w-[150px]' onClick={() => setShowPopup(true)}>Add Input</button>
+        <button className='border rounded bg-gray-300 min-w-[150px]' onClick={() => setShowPopup(true)}>Add Text Input</button>
         
         {/* Insert Modal here and relevent functions/fields inside the modal */}
         <Modal
@@ -31,7 +31,19 @@ const AddInput = ({data, update}) => {
 
       >
         <Input
-          placeholder="Enter Item name"
+          placeholder="Enter Field Label"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+
+        <Input
+          placeholder="Enter Field Name"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+
+        <Input
+          placeholder="Enter Field Placeholder"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />

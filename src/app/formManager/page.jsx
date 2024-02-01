@@ -28,7 +28,7 @@ const FormManager = () => {
             <FormSettings data={startJson} update={setStartJson} />
             <br />
         </div>
-        <div className='grid grid-cols-3 min-h-[50vh] text-center'>
+        <div className='grid grid-cols-3 h-[65vh] text-center'>
             <div className='border'>
                 Items Bar
                 <br />

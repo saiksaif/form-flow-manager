@@ -11,6 +11,16 @@ const AddStep = ({ data, update }) => {
     // For example, you can update the data array
     // and then close the modal
     // update([...data, inputValue]);
+    update({
+      ...data,
+      steps: [
+        ...data?.steps,
+        {
+          "step_name": inputValue,
+          "fields": []
+        }
+      ]
+    })
     setShowPopup(false);
     setInputValue('');
   };
