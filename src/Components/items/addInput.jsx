@@ -20,7 +20,7 @@ const AddInput = ({data, update}) => {
       require: true
     };
 
-    console.log("HERE")
+    console.log("HERE", fieldToAdd)
     update({
       ...data,
       steps: [data?.steps?.map((step) => {
