@@ -1,51 +1,96 @@
 "use client"
 import React, { useState } from 'react';
-import { Modal, Input, Button } from 'antd';
+import { Modal, Input, Select } from 'antd';
 
 const AddInput = ({data, update}) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputLabelValue, setInputLabelValue] = useState('');
+  const [inputNameValue, setInputNameValue] = useState('');
+  const [inputPlaceValue, setInputPlaceValue] = useState('');
+  const [stepValue, setStep] = useState(data?.steps[0].step_name);
 
   const handleAddStep = () => {
-
     // Perform any necessary logic with the inputValue
     // For example, you can update the data array
     // and then close the modal
-    // update([...data, inputValue]);
+    let fieldToAdd = {
+      name: inputLabelValue,
+      label: inputNameValue,
+      placeholder: inputPlaceValue,
+      require: true
+    };
+
+    console.log("HERE")
+    update({
+      ...data,
+      steps: [data?.steps?.map((step) => {
+        console.log(step.step_name)
+        step.step_name === stepValue ? {
+          ...step,
+          fields: [
+            ...step.fields,
+            fieldToAdd
+          ]
+        } : step
+      })]
+    });
+    console.log("UPDATE")
+
     setShowPopup(false);
-    setInputValue('');
+    setInputLabelValue('');
+    setInputNameValue('');
+    setInputPlaceValue('');
+    console.log("END")
   };
+
+  const onStepChange = (value) => {
+    setStep(value);
+  };
+
 
   return (
     <div>
-        <button className='border rounded bg-gray-300 min-w-[150px]' onClick={() => setShowPopup(true)}>Add Text Input</button>
-        
-        {/* Insert Modal here and relevent functions/fields inside the modal */}
-        <Modal
-        title="Add Item"
+      <button className='border rounded bg-gray-300 min-w-[150px]' onClick={() => setShowPopup(true)}>
+        Add Text Input
+      </button>
+      
+      {/* Insert Modal here and relevent functions/fields inside the modal */}
+      <Modal
+        title="Add Text Input Field"
         open={showPopup}
         onOk={handleAddStep}
         onCancel={() => setShowPopup(false)}
         okText={'Add'}
         okButtonProps={{ style: { backgroundColor: 'blue', color: 'white' } }}
-
       >
+        <Select
+          style={{
+            width: 200,
+          }}
+          value={stepValue}
+          onChange={onStepChange}
+          options={data?.steps.map((step) => ({
+            label: step.step_name,
+            value: step.step_name,
+          }))}
+        />
+
         <Input
           placeholder="Enter Field Label"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={inputLabelValue}
+          onChange={(e) => setInputLabelValue(e.target.value)}
         />
 
         <Input
           placeholder="Enter Field Name"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={inputNameValue}
+          onChange={(e) => setInputNameValue(e.target.value)}
         />
 
         <Input
           placeholder="Enter Field Placeholder"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={inputPlaceValue}
+          onChange={(e) => setInputPlaceValue(e.target.value)}
         />
       </Modal>
     </div>
