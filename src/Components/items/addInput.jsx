@@ -18,6 +18,7 @@ const AddInput = ({data, update}) => {
       name: inputLabelValue,
       label: inputNameValue,
       placeholder: inputPlaceValue,
+      type: "text",
       require: true
     };
   
@@ -46,7 +47,6 @@ const AddInput = ({data, update}) => {
   const onStepChange = (value) => {
     setStep(value);
   };
-console.log('data',data)
 
   return (
     <div>

@@ -29,12 +29,12 @@ const FormManager = () => {
             <br />
         </div>
         <div className='grid grid-cols-3 h-[65vh] text-center'>
-            <div className='border'>
+            <div className='border overflow-y-auto'>
                 Items Bar
                 <br />
                 <ItemsBar data={startJson} update={setStartJson} />
             </div>
-            <div className='border'>
+            <div className='border overflow-y-auto'>
                 Layout Bar
                 <br />
                 <LayoutBar data={startJson} update={setStartJson} />
