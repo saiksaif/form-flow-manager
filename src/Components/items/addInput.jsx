@@ -23,7 +23,7 @@ const AddInput = ({data, update}) => {
     console.log("HERE", fieldToAdd)
     update({
       ...data,
-      steps: [data?.steps?.map((step) => {
+      steps: data?.steps?.map((step) => {
         console.log(step.step_name)
         step.step_name === stepValue ? {
           ...step,
@@ -32,7 +32,7 @@ const AddInput = ({data, update}) => {
             fieldToAdd
           ]
         } : step
-      })]
+      }),
     });
     console.log("UPDATE")
 
