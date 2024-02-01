@@ -13,6 +13,7 @@ const AddInput = ({data, update}) => {
     // Perform any necessary logic with the inputValue
     // For example, you can update the data array
     // and then close the modal
+    
     let fieldToAdd = {
       name: inputLabelValue,
       label: inputNameValue,
@@ -20,19 +21,22 @@ const AddInput = ({data, update}) => {
       require: true
     };
 
+    let filteredSteps = data?.steps?.map((step) => {
+      console.log(step.step_name)
+      step.step_name === stepValue ? {
+        ...step,
+        fields: [
+          ...step.fields,
+          fieldToAdd
+        ]
+      } : step
+    })
+
     console.log("HERE", fieldToAdd)
+
     update({
       ...data,
-      steps: data?.steps?.map((step) => {
-        console.log(step.step_name)
-        step.step_name === stepValue ? {
-          ...step,
-          fields: [
-            ...step.fields,
-            fieldToAdd
-          ]
-        } : step
-      }),
+      steps: filteredSteps,
     });
     console.log("UPDATE")
 
