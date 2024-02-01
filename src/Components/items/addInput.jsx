@@ -7,50 +7,46 @@ const AddInput = ({data, update}) => {
   const [inputLabelValue, setInputLabelValue] = useState('');
   const [inputNameValue, setInputNameValue] = useState('');
   const [inputPlaceValue, setInputPlaceValue] = useState('');
-  const [stepValue, setStep] = useState(data?.steps[0].step_name);
+  const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
 
   const handleAddStep = () => {
     // Perform any necessary logic with the inputValue
     // For example, you can update the data array
     // and then close the modal
-    
+  
     let fieldToAdd = {
       name: inputLabelValue,
       label: inputNameValue,
       placeholder: inputPlaceValue,
       require: true
     };
-
+  
     let filteredSteps = data?.steps?.map((step) => {
-      console.log(step.step_name)
-      step.step_name === stepValue ? {
-        ...step,
-        fields: [
-          ...step.fields,
-          fieldToAdd
-        ]
-      } : step
-    })
-
-    console.log("HERE", fieldToAdd)
-
+      console.log(step?.step_name);
+      return step?.step_name === stepValue
+        ? {
+            ...step,
+            fields: [...step.fields, fieldToAdd]
+          }
+        : step;
+    });
+  
     update({
       ...data,
       steps: filteredSteps,
     });
-    console.log("UPDATE")
-
+  
     setShowPopup(false);
     setInputLabelValue('');
     setInputNameValue('');
     setInputPlaceValue('');
-    console.log("END")
   };
+  
 
   const onStepChange = (value) => {
     setStep(value);
   };
-
+console.log('data',data)
 
   return (
     <div>
@@ -74,8 +70,8 @@ const AddInput = ({data, update}) => {
           value={stepValue}
           onChange={onStepChange}
           options={data?.steps.map((step) => ({
-            label: step.step_name,
-            value: step.step_name,
+            label: step?.step_name,
+            value: step?.step_name,
           }))}
         />
 
