@@ -7,12 +7,13 @@ const AddStep = ({ data, update }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleAddStep = () => {
-    // Perform any necessary logic with the inputValue
-    // For example, you can update the data array
-    // and then close the modal
-    // update([...data, inputValue]);
+    let multiStep = data?.steps?.length > 0 ? true : false;
+
+    console.log(data?.steps?.length, multiStep)
+
     update({
       ...data,
+      multi_step: multiStep,
       steps: [
         ...data?.steps,
         {
