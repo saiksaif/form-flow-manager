@@ -28,13 +28,13 @@ const FormManager = () => {
             <FormSettings data={startJson} update={setStartJson} />
             <br />
         </div>
-        <div className='grid grid-cols-3 h-[65vh] text-center'>
+        <div className='grid grid-cols-4 h-[65vh] text-center'>
             <div className='border overflow-y-auto'>
                 Items Bar
                 <br />
                 <ItemsBar data={startJson} update={setStartJson} />
             </div>
-            <div className='border overflow-y-auto'>
+            <div className='border overflow-y-auto col-span-2'>
                 Layout Bar
                 <br />
                 <LayoutBar data={startJson} update={setStartJson} />
