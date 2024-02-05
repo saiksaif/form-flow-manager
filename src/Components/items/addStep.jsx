@@ -28,7 +28,7 @@ const AddStep = ({ data, update }) => {
 
   return (
     <div>
-      <button className='border rounded bg-gray-300 min-w-[150px]' onClick={() => setShowPopup(true)}>
+      <button className='border rounded bg-gray-300 min-w-[150px] w-full' onClick={() => setShowPopup(true)}>
         Add Step
       </button>
 
