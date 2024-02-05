@@ -3,6 +3,7 @@ import React from 'react'
 import AddStep from './items/addStep'
 import AddInput from './items/addInput'
 import AddDatePicker from './items/addDatePicker'
+import AddRadios from './items/addRadios'
 
 const ItemsBar = ({data, update}) => {
   return (
@@ -14,6 +15,7 @@ const ItemsBar = ({data, update}) => {
         <p className='text-left font-semibold'>Input Fields</p>
         <AddInput data={data} update={update} />
         <AddDatePicker data={data} update={update} />
+        <AddRadios data={data} update={update} />
     </div>
   )
 }
