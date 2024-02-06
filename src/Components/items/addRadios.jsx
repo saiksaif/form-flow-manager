@@ -21,6 +21,7 @@ const AddRadios = ({ data, update }) => {
             type: "radio",
             name: radioNameValue,
             label: radioLabelValue,
+            options: radioOptionsValue,
             required: radioRequireValue
         };
 
@@ -40,12 +41,19 @@ const AddRadios = ({ data, update }) => {
         setShowPopup(false);
         setRadioLabelValue('');
         setRadioNameValue('');
+        setRadioOptionsValue([]);
         setRadioRequireValue(false);
     };
 
     const onStepChange = (value) => {
         setStep(value);
     };
+    const handleDelete = (indexToDelete) => {
+        setRadioOptionsValue(prevOptions => (
+            prevOptions.filter((_, index) => index !== indexToDelete)
+        ));
+    };
+    
 
     return (
         <div>
@@ -93,12 +101,20 @@ const AddRadios = ({ data, update }) => {
                     Add Radio Options
                     <Input
                         placeholder="Enter Field Name"
-                        value={radioOptionsTest}
-                        onChange={(e) => {radioOptionsTest = e.target.value}}
-                        onPressEnter={(e) => {setRadioOptionsValue([...radioOptionsValue, e.target.value]); radioOptionsTest = ""}}
+                        // value={radioOptionsTest}
+                        // onChange={(e) => {radioOptionsTest = e.target.value}}
+                        onPressEnter={(e) => {setRadioOptionsValue([...radioOptionsValue, e.target.value]); e.target = ""}}
                         required={true}
                     />
-                    {radioOptionsValue}
+                    <div className='flex flex-row gap-2'>
+                        {radioOptionsValue.map((option, index) => (
+                            <div key={index} className='flex bg-slate-100 p-1 w-min border rounded-lg'>
+                                {option} 
+                                &nbsp;&nbsp; 
+                                <button onClick={() => handleDelete(index)}>❌</button>
+                            </div>
+                        ))}
+                    </div>
 
                     <Checkbox onChange={(e) => { setRadioRequireValue(e.target.checked) }}>Required?</Checkbox>
                 </div>

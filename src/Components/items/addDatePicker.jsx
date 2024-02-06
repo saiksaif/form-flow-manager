@@ -118,6 +118,10 @@ const AddDatePicker = ({ data, update }) => {
                     End Date (Optional):
                     <DatePicker onChange={setPickerEndValue} />
 
+                    <Checkbox onChange={(e) => { setPickerStartValue("Today") }}>Use Today as Start date</Checkbox>
+
+                    <Checkbox onChange={(e) => { setPickerEndValue("Today") }}>Use Today as End date</Checkbox>
+
                     <Checkbox onChange={(e) => { setPickerRequireValue(e.target.checked) }}>Required?</Checkbox>
                 </div>
             </Modal>

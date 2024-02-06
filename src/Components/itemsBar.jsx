@@ -12,7 +12,7 @@ const ItemsBar = ({data, update}) => {
         <AddStep data={data} update={update} />
         <hr />
 
-        <p className='text-left font-semibold'>Input Fields</p>
+        <p className='text-left font-semibold'>Fields</p>
         <AddInput data={data} update={update} />
         <AddDatePicker data={data} update={update} />
         <AddRadios data={data} update={update} />
