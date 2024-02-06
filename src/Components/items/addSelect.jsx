@@ -2,27 +2,28 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddRadios = ({ data, update }) => {
+const AddSelect = ({ data, update }) => {
     const [showPopup, setShowPopup] = useState(false);
-    const [radioLabelValue, setRadioLabelValue] = useState('');
-    const [radioNameValue, setRadioNameValue] = useState('');
-    const [radioRequireValue, setRadioRequireValue] = useState(false);
-    const [radioOptionsValue, setRadioOptionsValue] = useState([]);
+    const [selectLabelValue, setSelectLabelValue] = useState('');
+    const [selectNameValue, setSelectNameValue] = useState('');
+    const [selectDefaultValue, setSelectDefaultValue] = useState('');
+    const [selectRequireValue, setSelectRequireValue] = useState(false);
+    const [selectOptionsValue, setSelectOptionsValue] = useState([]);
     const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
-    let radioOptionsTest;
 
     const handleAddStep = () => {
-        if (radioLabelValue == "" || radioNameValue == "") {
+        if (selectLabelValue == "" || selectNameValue == "") {
             alert("Cannot add field without details!")
             return;
         }
 
         let fieldToAdd = {
-            type: "radio",
-            name: radioNameValue,
-            label: radioLabelValue,
-            options: radioOptionsValue,
-            required: radioRequireValue
+            type: "select",
+            name: selectNameValue,
+            label: selectLabelValue,
+            default: selectDefaultValue,
+            options: selectOptionsValue,
+            required: selectRequireValue
         };
 
         let filteredSteps = data?.steps?.map((step) => {
@@ -39,17 +40,18 @@ const AddRadios = ({ data, update }) => {
         });
 
         setShowPopup(false);
-        setRadioLabelValue('');
-        setRadioNameValue('');
-        setRadioOptionsValue([]);
-        setRadioRequireValue(false);
+        setSelectLabelValue('');
+        setSelectNameValue('');
+        setSelectDefaultValue('');
+        setSelectOptionsValue([]);
+        setSelectRequireValue(false);
     };
 
     const onStepChange = (value) => {
         setStep(value);
     };
     const handleDelete = (indexToDelete) => {
-        setRadioOptionsValue(prevOptions => (
+        setSelectOptionsValue(prevOptions => (
             prevOptions.filter((_, index) => index !== indexToDelete)
         ));
     };
@@ -58,13 +60,13 @@ const AddRadios = ({ data, update }) => {
     return (
         <div>
             <button className='border rounded bg-gray-300 min-w-[150px] w-full flex justify-between px-4 p-1' onClick={() => setShowPopup(true)}>
-                Add Radios
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dot"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1"/></svg>
+                Add Select
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-square"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m16 10-4 4-4-4"/></svg>
             </button>
 
             {/* Insert Modal here and relevent functions/fields inside the modal */}
             <Modal
-                title="Add Radios"
+                title="Add Select"
                 open={showPopup}
                 onOk={handleAddStep}
                 onCancel={() => setShowPopup(false)}
@@ -84,62 +86,62 @@ const AddRadios = ({ data, update }) => {
                         required={true}
                     />
 
-                    Radios Details:
+                    Selects Details:
                     <Input
                         placeholder="Enter Field Label"
-                        value={radioLabelValue}
-                        onChange={(e) => setRadioLabelValue(e.target.value)}
+                        value={selectLabelValue}
+                        onChange={(e) => setSelectLabelValue(e.target.value)}
                         required={true}
                     />
 
                     <Input
                         placeholder="Enter Field Name"
-                        value={radioNameValue}
-                        onChange={(e) => setRadioNameValue(e.target.value)}
+                        value={selectNameValue}
+                        onChange={(e) => setSelectNameValue(e.target.value)}
                         required={true}
                     />
 
-                    Add Radio Options
                     <Input
-                        placeholder="Enter Field Name"
-                        // value={radioOptionsTest}
-                        // onChange={(e) => {radioOptionsTest = e.target.value}}
-                        onPressEnter={(e) => {setRadioOptionsValue([...radioOptionsValue,  {label:e.target.value, value: ""}]); e.target = ""}}
+                        placeholder="Enter Default Value"
+                        value={selectDefaultValue}
+                        onChange={(e) => setSelectDefaultValue(e.target.value)}
                         required={true}
                     />
-                    <div className='flex flex-row gap-2'>
-                        {/* {radioOptionsValue.map((option, index) => (
-                            <div key={index} className='flex bg-slate-100 p-1 w-min border rounded-lg'>
-                                {option} 
-                                &nbsp;&nbsp; 
-                                <button onClick={() => handleDelete(index)}>❌</button>
-                            </div>
-                        ))} */}
-                        {radioOptionsValue.map((option, index) => (
+
+                    Add Select Options
+                    <Input
+                        placeholder="Enter Field Name"
+                        // value={selectOptionsTest}
+                        // onChange={(e) => {selectOptionsTest = e.target.value}}
+                        onPressEnter={(e) => {setSelectOptionsValue([...selectOptionsValue, {label:e.target.value, value: ""}]); e.target = ""}}
+                        required={true}
+                    />
+                    <div className='flex flex-col gap-2'>
+                        {selectOptionsValue.map((option, index) => (
                             <div key={index} className='flex w-full gap-2'>
                                 <div className='flex justify-between bg-slate-100 p-1 px-4 w-full border rounded-lg'>
-                                    {option.label}
+                                {option.label}
                                 </div>
                                 <Input
-                                    placeholder="Value"
-                                    value={option.value}
-                                    onChange={(e) => {
-                                        const updatedOptions = [...radioOptionsValue];
-                                        updatedOptions[index] = { ...option, value: e.target.value };
-                                        setRadioOptionsValue(updatedOptions);
-                                    }}
-                                    required={true}
+                                placeholder="Value"
+                                value={option.value}
+                                onChange={(e) => {
+                                    const updatedOptions = [...selectOptionsValue];
+                                    updatedOptions[index] = { ...option, value: e.target.value };
+                                    setSelectOptionsValue(updatedOptions);
+                                }}
+                                required={true}
                                 />
                                 <button className='border rounded-lg bg-slate-200 w-[100px]' onClick={() => handleDelete(index)}>❌</button>
                             </div>
                         ))}
                     </div>
 
-                    <Checkbox onChange={(e) => { setRadioRequireValue(e.target.checked) }}>Required?</Checkbox>
+                    <Checkbox onChange={(e) => { setSelectRequireValue(e.target.checked) }}>Required?</Checkbox>
                 </div>
             </Modal>
         </div>
     )
 }
 
-export default AddRadios
+export default AddSelect

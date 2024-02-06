@@ -2,31 +2,34 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddInput = ({ data, update }) => {
+const AddTextArea = ({ data, update }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [inputTypeValue, setInputTypeValue] = useState('');
   const [inputLabelValue, setInputLabelValue] = useState('');
   const [inputNameValue, setInputNameValue] = useState('');
   const [inputPlaceValue, setInputPlaceValue] = useState('');
   const [inputRequireValue, setInputRequireValue] = useState(false);
+  const [inputRowsValue, setInputRowsValue] = useState(1);
+  const [inputColsValue, setInputColsValue] = useState(1);
   const [inputMinValue, setInputMinValue] = useState(0);
   const [inputMaxValue, setInputMaxValue] = useState(1);
   const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
 
   const handleAddStep = () => {
-    if (inputTypeValue == "" || inputLabelValue == "" || inputNameValue == "" || inputPlaceValue == "") {
+    if (inputLabelValue == "" || inputNameValue == "" || inputPlaceValue == "") {
       alert("Cannot add field without details!")
       return;
     }
 
     let fieldToAdd = {
-      type: inputTypeValue,
+      type: "textarea",
       name: inputLabelValue,
       label: inputNameValue,
       placeholder: inputPlaceValue,
-      required: inputRequireValue,
+      rows: inputRowsValue,
+      cols: inputColsValue,
       minLength: inputMinValue,
-      maxLength: inputMaxValue
+      maxLength: inputMaxValue,
+      required: inputRequireValue,
     };
 
     let filteredSteps = data?.steps?.map((step) => {
@@ -45,11 +48,12 @@ const AddInput = ({ data, update }) => {
     });
 
     setShowPopup(false);
-    setInputTypeValue('')
     setInputLabelValue('');
     setInputNameValue('');
     setInputPlaceValue('');
     setInputRequireValue(false);
+    setInputRowsValue(1);
+    setInputColsValue(1);
     setInputMinValue(0);
     setInputMaxValue(1);
   };
@@ -62,13 +66,13 @@ const AddInput = ({ data, update }) => {
   return (
     <div>
       <button className='border rounded bg-gray-300 min-w-[150px] w-full flex justify-between px-4 p-1' onClick={() => setShowPopup(true)}>
-        Add Input
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-text-cursor-input"><path d="M5 4h1a3 3 0 0 1 3 3 3 3 0 0 1 3-3h1"/><path d="M13 20h-1a3 3 0 0 1-3-3 3 3 0 0 1-3 3H5"/><path d="M5 16H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1"/><path d="M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7"/><path d="M9 7v10"/></svg>
+        Add Text Area
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"/></svg>
       </button>
 
       {/* Insert Modal here and relevent functions/fields inside the modal */}
       <Modal
-        title="Add Input Field"
+        title="Add Text Area"
         open={showPopup}
         onOk={handleAddStep}
         onCancel={() => setShowPopup(false)}
@@ -85,19 +89,6 @@ const AddInput = ({ data, update }) => {
               label: step?.step_name,
               value: step?.step_name,
             }))}
-            required={true}
-          />
-
-          Field Type:
-          <Select
-            className='w-full'
-            value={inputTypeValue}
-            onChange={setInputTypeValue}
-            options={[
-              {label: "Text", value: "text"}, 
-              {label: "Email", value: "email"}, 
-              {label: "Password", value: "password"}
-            ]}
             required={true}
           />
 
@@ -123,11 +114,31 @@ const AddInput = ({ data, update }) => {
             required={true}
           />
 
+          Textarea Rows:
+          <InputNumber 
+            className='w-full'
+            placeholder="Enter Text Area Rows"
+            defaultValue={inputRowsValue} 
+            min={1} max={20}
+            onChange={(value)=>{setInputRowsValue(value);}}
+            required={true}
+          />
+
+          Textarea Cols:
+          <InputNumber 
+            className='w-full'
+            placeholder="Enter Text Area Cols"
+            defaultValue={inputColsValue} 
+            min={1} max={20}
+            onChange={(value)=>{setInputColsValue(value);}}
+            required={true}
+          />
+
           Min length:
           <InputNumber 
             className='w-full'
             placeholder="Enter Min Length" 
-            min={inputMinValue} max={100}
+            min={inputMinValue} max={1000}
             defaultValue={inputMinValue} 
             onChange={(value)=>{
               setInputMinValue(value); 
@@ -140,7 +151,7 @@ const AddInput = ({ data, update }) => {
           <InputNumber 
             className='w-full'
             placeholder="Enter Max Length" 
-            min={inputMinValue + 1} max={100}
+            min={inputMinValue + 1} max={1000}
             defaultValue={inputMinValue + 1}
             onChange={(value)=>{setInputMaxValue(value)}}
             required={true}
@@ -153,4 +164,4 @@ const AddInput = ({ data, update }) => {
   )
 }
 
-export default AddInput
+export default AddTextArea
