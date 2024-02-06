@@ -18,6 +18,7 @@ const FormManager = () => {
         onSubmit: "http://0.0.0.0:3000/some/api",
         successMsg: "Data was saved",
         errorMsg: "Something went wrong",
+        tags: []
     })
 
   return (
