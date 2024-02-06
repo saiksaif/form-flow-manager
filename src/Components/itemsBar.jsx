@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import React from 'react'
 import AddStep from './items/addStep'
 import AddInput from './items/addInput'
@@ -7,6 +7,9 @@ import AddSelect from './items/addSelect'
 import AddDatePicker from './items/addDatePicker'
 import AddRadios from './items/addRadios'
 import AddCheckbox from './items/addCheckbox'
+
+import AddHeading from './items/addHeading'
+import AddParagraph from './items/addParagraph'
 
 const ItemsBar = ({data, update}) => {
   return (
@@ -22,6 +25,11 @@ const ItemsBar = ({data, update}) => {
         <AddDatePicker data={data} update={update} />
         <AddRadios data={data} update={update} />
         <AddCheckbox data={data} update={update} />
+        <hr />
+
+        <p className='text-left font-semibold'>Content</p>
+        <AddHeading data={data} update={update} />
+        <AddParagraph data={data} update={update} />
     </div>
   )
 }
