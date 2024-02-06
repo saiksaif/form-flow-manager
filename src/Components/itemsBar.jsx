@@ -6,6 +6,7 @@ import AddTextArea from './items/addTextArea'
 import AddSelect from './items/addSelect'
 import AddDatePicker from './items/addDatePicker'
 import AddRadios from './items/addRadios'
+import AddCheckbox from './items/addCheckbox'
 
 const ItemsBar = ({data, update}) => {
   return (
@@ -20,6 +21,7 @@ const ItemsBar = ({data, update}) => {
         <AddSelect data={data} update={update} />
         <AddDatePicker data={data} update={update} />
         <AddRadios data={data} update={update} />
+        <AddCheckbox data={data} update={update} />
     </div>
   )
 }
