@@ -13,7 +13,7 @@ const FormSettings = ({data, update}) => {
         <p className='text-lg font-semibold underline'>
             Form Settings
         </p>
-        <div className='grid grid-cols-4 gap-4'>
+        <div className='grid grid-cols-3 gap-4'>
             <div className='flex flex-col'>
                 <label htmlFor="">Form Name:</label>
                 <Input className='border rounded shadow p-2' type="text" placeholder='Form Name' value={fName} onChange={(e)=>setFName(e.target.value)} onBlur={()=>{update({...data, formName: fName})}} />
@@ -30,20 +30,26 @@ const FormSettings = ({data, update}) => {
                 <Input className='border rounded shadow p-2' type="text" placeholder='Fail Msg' value={fError} onChange={(e)=>setFError(e.target.value)} onBlur={()=>{update({...data, errorMsg: fError})}} />
             </div>
 
-            <div className='flex flex-col'>
-                <label htmlFor="">Add Tags:</label>
-                <Input
-                className='border rounded shadow p-2'
+            <div className='flex flex-col col-span-1'>
+                <label htmlFor="">Manage Tags:</label>
+                <Button className='border rounded shadow p-1 mb-1'>Add Tags</Button>
+                {/* <Input
+                    className='border rounded shadow p-2'
                     placeholder="Enter Tag Name"
                     // value={}
                     onPressEnter={(e) => update({...data, tags: [...data.tags, e.target.value]})}
                     required={true}
-                />
+                /> */}
+                <p>My Tags:</p>
+                <div className='flex flex-row flex-wrap p-1 gap-1 overflow-x-auto overflow-y-hidden'>
+                    <Button>
+                        #tag &nbsp; ❌
+                    </Button>
+                </div>
             </div>
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-row'>
                 <label htmlFor="">Tags:</label>
                 <div className='flex flex-row flex-wrap p-1 gap-1'>
-                    {/* {data?.tags} */}
                     {data?.tags.map((tag, index) => {return (
                         <Button key={index} onClick={() => {
                             const updatedTags = data.tags.filter((i) => i != tag);
@@ -53,7 +59,7 @@ const FormSettings = ({data, update}) => {
                         </Button>
                     )})}
                 </div>
-            </div>
+            </div> */}
         </div>
     </div>
   )

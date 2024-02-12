@@ -8,9 +8,13 @@ const AddStep = ({ data, update }) => {
   const [onComplete, setOnComplete] = useState('');
 
   const handleAddStep = () => {
-    let multiStep = data?.steps?.length > 0 ? true : false;
+    const isStepNameExists = data?.steps?.some(step => step.step_name === inputValue);
+    if (isStepNameExists) {
+      alert("Error! Step with the same name already exists!");
+      return;
+    }
 
-    console.log(data?.steps?.length, multiStep)
+    let multiStep = data?.steps?.length > 0 ? true : false;
 
     update({
       ...data,
@@ -24,6 +28,7 @@ const AddStep = ({ data, update }) => {
         }
       ]
     })
+
     setShowPopup(false);
     setInputValue('');
     setOnComplete('');
@@ -33,7 +38,7 @@ const AddStep = ({ data, update }) => {
     <div>
       <button className='border rounded bg-gray-300 min-w-[150px] w-full flex justify-between px-4 p-1' onClick={() => setShowPopup(true)}>
         Add Step
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right-to-line"><path d="M17 12H3"/><path d="m11 18 6-6-6-6"/><path d="M21 5v14"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right-to-line"><path d="M17 12H3" /><path d="m11 18 6-6-6-6" /><path d="M21 5v14" /></svg>
       </button>
 
       <Modal
