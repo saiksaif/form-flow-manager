@@ -12,6 +12,7 @@ const FormManager = () => {
         steps: [
             {
                 step_name: "Personal",
+                onStepComplete: "",
                 fields: []
             }
         ],

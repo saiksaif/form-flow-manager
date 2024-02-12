@@ -5,6 +5,7 @@ import { Modal, Input, Button } from 'antd';
 const AddStep = ({ data, update }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [onComplete, setOnComplete] = useState('');
 
   const handleAddStep = () => {
     let multiStep = data?.steps?.length > 0 ? true : false;
@@ -18,12 +19,14 @@ const AddStep = ({ data, update }) => {
         ...data?.steps,
         {
           "step_name": inputValue,
+          "onStepComplete": onComplete,
           "fields": []
         }
       ]
     })
     setShowPopup(false);
     setInputValue('');
+    setOnComplete('');
   };
 
   return (
@@ -42,10 +45,20 @@ const AddStep = ({ data, update }) => {
         okButtonProps={{ style: { backgroundColor: 'blue', color: 'white' } }}
 
       >
+        Step Name:
         <Input
           placeholder="Enter step name"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+        />
+        <br />
+        <br />
+
+        On Complete (Optional):
+        <Input
+          placeholder="Enter API to run on completing step."
+          value={onComplete}
+          onChange={(e) => setOnComplete(e.target.value)}
         />
       </Modal>
     </div>
