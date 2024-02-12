@@ -4,28 +4,36 @@ import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
 const AddPictureUpload = ({ data, update }) => {
     const [showPopup, setShowPopup] = useState(false);
-    const [selectTypeValue, setSelectTypeValue] = useState('');
-    const [selectLabelValue, setSelectLabelValue] = useState('');
-    const [selectNameValue, setSelectNameValue] = useState('');
-    const [selectDefaultValue, setSelectDefaultValue] = useState('');
-    const [selectRequireValue, setSelectRequireValue] = useState(false);
-    const [selectOptionsValue, setSelectOptionsValue] = useState([]);
+    const [pictureTypesValue, setPictureTypesValue] = useState([]);
+    const [pictureCountValue, setPictureCountValue] = useState(1);
+    const [pictureMinSizeValue, setPictureMinSizeValue] = useState();
+    const [pictureMaxSizeValue, setPictureMaxSizeValue] = useState();
+    const [pictureMinHWValue, setPictureMinHWValue] = useState();
+    const [pictureMaxHWValue, setPictureMaxHWValue] = useState();
+    const [pictureNameValue, setPictureNameValue] = useState('');
+    const [pictureLabelValue, setPictureLabelValue] = useState('');
+    const [picturePreviewValue, setPicturePreviewValue] = useState(false);
+    const [pictureRequireValue, setPictureRequireValue] = useState(false);
     const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
 
     const handleAddStep = () => {
-        if (selectLabelValue == "" || selectNameValue == "") {
+        if (pictureNameValue == "" || pictureLabelValue == "") {
             alert("Cannot add field without details!")
             return;
         }
 
         let fieldToAdd = {
-            type: "select",
-            selectType: selectTypeValue,
-            name: selectNameValue,
-            label: selectLabelValue,
-            default: selectDefaultValue,
-            options: selectOptionsValue,
-            required: selectRequireValue
+            type: "pictureUpload",
+            name: pictureNameValue,
+            label: pictureLabelValue,
+            formats: pictureTypesValue,
+            count: pictureCountValue,
+            minSize: pictureMinSizeValue,
+            maxSize: pictureMaxSizeValue,
+            minHW: pictureMinHWValue,
+            maxHW: pictureMaxHWValue,
+            preview: picturePreviewValue,
+            required: pictureRequireValue
         };
 
         let filteredSteps = data?.steps?.map((step) => {
@@ -42,19 +50,23 @@ const AddPictureUpload = ({ data, update }) => {
         });
 
         setShowPopup(false);
-        setSelectTypeValue('');
-        setSelectLabelValue('');
-        setSelectNameValue('');
-        setSelectDefaultValue('');
-        setSelectOptionsValue([]);
-        setSelectRequireValue(false);
+        setPictureNameValue('');
+        setPictureLabelValue('');
+        setPictureTypesValue([]);
+        setPictureCountValue(1);
+        setPictureMinSizeValue(null);
+        setPictureMaxSizeValue(null);
+        setPictureMinHWValue(null);
+        setPictureMaxHWValue(null);
+        setPicturePreviewValue(false);
+        setPictureRequireValue(false);
     };
 
     const onStepChange = (value) => {
         setStep(value);
     };
     const handleDelete = (indexToDelete) => {
-        setSelectOptionsValue(prevOptions => (
+        setPictureTypesValue(prevOptions => (
             prevOptions.filter((_, index) => index !== indexToDelete)
         ));
     };
@@ -89,67 +101,90 @@ const AddPictureUpload = ({ data, update }) => {
                         required={true}
                     />
 
-                    Select Type:
-                    <Select
-                        className='w-full'
-                        value={selectTypeValue}
-                        onChange={setSelectTypeValue}
-                        options={[{ label: "Single Select",  value: "single" }, { label: "Multi Select",  value: "multiple" }]}
-                        required={true}
-                    />
-
-                    Selects Details:
+                    Picture Upload Details:
                     <Input
-                        placeholder="Enter Field Label"
-                        value={selectLabelValue}
-                        onChange={(e) => setSelectLabelValue(e.target.value)}
+                        placeholder="Enter Picture Upload Name"
+                        value={pictureNameValue}
+                        onChange={(e) => setPictureNameValue(e.target.value)}
                         required={true}
                     />
 
                     <Input
-                        placeholder="Enter Field Name"
-                        value={selectNameValue}
-                        onChange={(e) => setSelectNameValue(e.target.value)}
+                        placeholder="Enter Picture Upload Label"
+                        value={pictureLabelValue}
+                        onChange={(e) => setPictureLabelValue(e.target.value)}
                         required={true}
                     />
 
+                    Add Picture Formats
                     <Input
-                        placeholder="Enter Default Value"
-                        value={selectDefaultValue}
-                        onChange={(e) => setSelectDefaultValue(e.target.value)}
-                        required={true}
-                    />
-
-                    Add Select Options
-                    <Input
-                        placeholder="Enter Field Name"
-                        // value={selectOptionsTest}
-                        // onChange={(e) => {selectOptionsTest = e.target.value}}
-                        onPressEnter={(e) => {setSelectOptionsValue([...selectOptionsValue, {label:e.target.value, value: ""}]); e.target = ""}}
+                        placeholder="Enter Picture Upload Formats"
+                        onPressEnter={(e) => {setPictureTypesValue([ ...pictureTypesValue, e.target.value ]); e.target = ""}}
                         required={true}
                     />
                     <div className='flex flex-col gap-2'>
-                        {selectOptionsValue.map((option, index) => (
-                            <div key={index} className='flex w-full gap-2'>
+                        {pictureTypesValue.map((option, index) => (
+                            <div key={index} className='w-full flex gap-2'>
                                 <div className='flex justify-between bg-slate-100 p-1 px-4 w-full border rounded-lg'>
-                                {option.label}
+                                    {option}
                                 </div>
-                                <Input
-                                placeholder="Value"
-                                value={option.value}
-                                onChange={(e) => {
-                                    const updatedOptions = [...selectOptionsValue];
-                                    updatedOptions[index] = { ...option, value: e.target.value };
-                                    setSelectOptionsValue(updatedOptions);
-                                }}
-                                required={true}
-                                />
-                                <button className='border rounded-lg bg-slate-200 w-[100px]' onClick={() => handleDelete(index)}>❌</button>
+                                <button className='border rounded-lg bg-slate-200 w-[60px]' onClick={() => handleDelete(index)}>❌</button>
                             </div>
                         ))}
                     </div>
 
-                    <Checkbox onChange={(e) => { setSelectRequireValue(e.target.checked) }}>Required?</Checkbox>
+                    Pictures Count:
+                    <InputNumber 
+                        className='w-full'
+                        placeholder="Enter Pictures Count"
+                        min={1} max={15}
+                        onChange={(value)=>{setPictureCountValue(value)}}
+                        required={true}
+                    />
+
+                    Picture Size (MB):
+                    <div className='flex gap-2'>
+                        <InputNumber 
+                            className='w-1/2'
+                            placeholder="Enter Picture Min Size"
+                            min={0} max={50}
+                            value={pictureMinSizeValue}
+                            onChange={(value)=>{setPictureMinSizeValue(value)}}
+                            required={true}
+                        />
+                        <InputNumber 
+                            className='w-1/2'
+                            placeholder="Enter Picture Max Size"
+                            min={1} max={50}
+                            value={pictureMaxSizeValue}
+                            onChange={(value)=>{setPictureMaxSizeValue(value)}}
+                            required={true}
+                        />
+                    </div>
+
+                    Picture Dimensions (PX):
+                    <div className='flex gap-2'>
+                        <InputNumber 
+                            className='w-1/2'
+                            placeholder="Enter Min Height/Width"
+                            min={0} max={3000}
+                            value={pictureMinHWValue}
+                            onChange={(value)=>{setPictureMinHWValue(value)}}
+                            required={true}
+                        />
+                        <InputNumber 
+                            className='w-1/2'
+                            placeholder="Enter Max Height/Width"
+                            min={1} max={3000}
+                            value={pictureMaxHWValue}
+                            onChange={(value)=>{setPictureMaxHWValue(value)}}
+                            required={true}
+                        />
+                    </div>
+
+                    <Checkbox value={picturePreviewValue} onChange={(e) => { setPicturePreviewValue(e.target.checked) }}>Show Picture Preview</Checkbox>
+
+                    <Checkbox value={pictureRequireValue} onChange={(e) => { setPicturePreviewValue(e.target.checked) }}>Required?</Checkbox>
                 </div>
             </Modal>
         </div>
