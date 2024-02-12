@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddSelect = ({ data, update }) => {
+const AddPictureUpload = ({ data, update }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectTypeValue, setSelectTypeValue] = useState('');
     const [selectLabelValue, setSelectLabelValue] = useState('');
@@ -63,13 +63,13 @@ const AddSelect = ({ data, update }) => {
     return (
         <div>
             <button className='border rounded bg-gray-300 min-w-[150px] w-full flex justify-between px-4 p-1' onClick={() => setShowPopup(true)}>
-                Add Select
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-square"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m16 10-4 4-4-4"/></svg>
+                Add Picture Upload
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-image"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.1-1.1a2 2 0 0 0-2.81.01L10 22"/></svg>
             </button>
 
             {/* Insert Modal here and relevent functions/fields inside the modal */}
             <Modal
-                title="Add Select"
+                title="Add Picture Upload"
                 open={showPopup}
                 onOk={handleAddStep}
                 onCancel={() => setShowPopup(false)}
@@ -156,4 +156,4 @@ const AddSelect = ({ data, update }) => {
     )
 }
 
-export default AddSelect
+export default AddPictureUpload

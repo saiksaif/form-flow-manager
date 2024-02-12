@@ -63,7 +63,7 @@ const LayoutBar = ({ data, update }) => {
         steps: updatedSteps,
       };
     });
-console.log('clled')
+    console.log('clled')
     setShowPopup(false); // Close the modal
   };
   return (
@@ -80,6 +80,18 @@ console.log('clled')
                   <span>Step Name: {step?.step_name}</span>
                   <div className="flex items-center">
                     <button
+                      onClick={() => {alert("Move Left");}}
+                      className="text-green-600 p-2 hover:text-green-500"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button
+                      onClick={() => {alert("Move Right");}}
+                      className="text-green-600 p-2 hover:text-green-500"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                    <button
                       onClick={() => {
                         setInputValue(step.step_name);
                         setSelectedStep(step.step_name); // Set the selected step
@@ -94,10 +106,10 @@ console.log('clled')
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-pen"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-pen"
                       >
                         <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                       </svg>
@@ -139,14 +151,70 @@ console.log('clled')
                         <label htmlFor="">
                           {field.label} - {field.type}
                         </label>
-                        <Button
-                          className="text-red-500 p-1 hover:text-red-400"
-                          onClick={() =>
-                            deleteField(step?.step_name, field?.label)
-                          }
-                        >
-                          Delete Field
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            className="text-green-600 p-1 hover:text-green-400"
+                            onClick={() =>
+                              alert("Move Up!")
+                            }
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>
+                          </Button>
+                          <Button
+                            className="text-green-600 p-1 hover:text-green-400"
+                            onClick={() =>
+                              alert("Move Down")
+                            }
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                          </Button>
+                          <Button
+                            className="text-blue-600 p-1 hover:text-blue-400"
+                            onClick={() =>
+                              alert("Edit Field")
+                            }
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-pen"
+                            >
+                              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                            </svg>
+                          </Button>
+                          <Button
+                            className="text-red-500 p-1 hover:text-red-400"
+                            onClick={() =>
+                              deleteField(step?.step_name, field?.label)
+                            }
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-trash-2"
+                            >
+                              <path d="M3 6h18" />
+                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                              <line x1="10" x2="10" y1="11" y2="17" />
+                              <line x1="14" x2="14" y1="11" y2="17" />
+                            </svg>
+                          </Button>
+                        </div>
                       </div>
                     );
                   })}
@@ -155,19 +223,19 @@ console.log('clled')
                 <br />
               </div>
               <Modal
-    title="Update step name"
-    open={showPopup}
-    onOk={()=>handleUpdateStep()}
-    onCancel={() => setShowPopup(false)}
-    okText={"Update"}
-    okButtonProps={{ style: { backgroundColor: "blue", color: "white" } }}
-  >
-    <Input
-      placeholder="Enter step name"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-    />
-  </Modal>;
+                title="Update step name"
+                open={showPopup}
+                onOk={() => handleUpdateStep()}
+                onCancel={() => setShowPopup(false)}
+                okText={"Update"}
+                okButtonProps={{ style: { backgroundColor: "blue", color: "white" } }}
+              >
+                <Input
+                  placeholder="Enter step name"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+              </Modal>
             </TabPane>
           );
         })}

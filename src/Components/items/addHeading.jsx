@@ -53,7 +53,7 @@ const AddHeading = ({ data, update }) => {
 
       {/* Insert Modal here and relevent functions/fields inside the modal */}
       <Modal
-        title="Add Heading Field"
+        title="Add Heading"
         open={showPopup}
         onOk={handleAddStep}
         onCancel={() => setShowPopup(false)}
