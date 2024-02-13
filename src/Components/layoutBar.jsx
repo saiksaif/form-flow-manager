@@ -117,7 +117,7 @@ const LayoutBar = ({ data, update }) => {
             </Button>
             <Button
               className="text-red-500 p-1 hover:text-red-400"
-              onClick={() => deleteField(step?.step_name, field?.label)}
+              onClick={() => deleteField(field?.step_name, field?.label)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
