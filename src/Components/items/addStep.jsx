@@ -48,7 +48,6 @@ const AddStep = ({ data, update }) => {
         onCancel={() => setShowPopup(false)}
         okText={'Add'}
         okButtonProps={{ style: { backgroundColor: 'blue', color: 'white' } }}
-
       >
         Step Name:
         <Input

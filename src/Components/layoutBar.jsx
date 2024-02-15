@@ -81,22 +81,22 @@ const LayoutBar = ({ data, update }) => {
           </label>
           <div className="flex gap-2">
             {/* <Button
-                            className="text-green-600 p-1 hover:text-green-400"
-                            onClick={() =>
-                              alert("Move Up!")
-                            }
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>
-                          </Button>
-                          <Button
-                            className="text-green-600 p-1 hover:text-green-400"
-                            onClick={() =>
-                              alert("Move Down")
-                            }
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
-                          </Button> */}
+              className="text-green-600 p-1 hover:text-green-400"
+              onClick={() =>
+                alert("Move Up!")
+              }
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>
+            </Button>
             <Button
+              className="text-green-600 p-1 hover:text-green-400"
+              onClick={() =>
+                alert("Move Down")
+              }
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+            </Button> */}
+            {/* <Button
               className="text-blue-600 p-1 hover:text-blue-400"
               onClick={() => alert("Edit Field")}
             >
@@ -114,7 +114,7 @@ const LayoutBar = ({ data, update }) => {
               >
                 <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
               </svg>
-            </Button>
+            </Button> */}
             <Button
               className="text-red-500 p-1 hover:text-red-400"
               onClick={() => deleteField(field?.step_name, field?.label)}

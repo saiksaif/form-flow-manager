@@ -6,6 +6,8 @@ import ItemsBar from '@/Components/itemsBar'
 import LayoutBar from '@/Components/layoutBar'
 
 const FormManager = () => {
+    const [startTags, setStartTags] = useState(["registeration"]);
+
     const [startJson, setStartJson] = useState({
         formName: "demo form",
         multi_step: false,
@@ -27,7 +29,7 @@ const FormManager = () => {
         <p className='text-center font-semibold my-4'>Form Manager</p>
         <hr />
         <div>
-            <FormSettings data={startJson} update={setStartJson} />
+            <FormSettings data={startJson} update={setStartJson} tags={startTags} tagUpdate={setStartTags} />
             <br />
         </div>
         <div className='grid grid-cols-5 h-[65vh] text-center'>
