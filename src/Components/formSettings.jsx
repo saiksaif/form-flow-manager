@@ -40,7 +40,7 @@ const FormSettings = ({ data, update, tags, tagUpdate }) => {
                     <div className='flex flex-row flex-nowrap p-1 gap-1 overflow-x-auto overflow-y-hidden'>
                         {tags?.map((tag, index) => {
                             return (
-                                <div key={index} className='border rounded-lg p-2 w-max h-[45px]'>
+                                <div key={index} className='border rounded-lg p-2 w-full whitespace-pre h-[45px]'>
                                     #{tag}
                                 </div>
                             )
