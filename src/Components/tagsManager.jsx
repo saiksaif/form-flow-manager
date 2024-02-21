@@ -4,10 +4,36 @@ import { Modal, Input, Button } from 'antd';
 const TagsManager = ({ tags, tagUpdate }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [tagValue, setTagValue] = useState('');
-
+    const addTag = async (selectedTag) => {
+        try {
+          const response = await fetch("/api/tags", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: 1,
+              newTags: [selectedTag],
+            }),
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
+            return data.data;
+          } else {
+            const { error } = await response.json();
+            throw new Error(error);
+          }
+        } catch (error) {
+          console.error('Error adding tag:', error);
+          throw error;
+        }
+      };
     const addHashtag = (newtag) => {
         tagUpdate([...tags, newtag]);
+        addTag(newtag);
         setTagValue('');
+
     }
 
     const deleteHashtag = (index) => {

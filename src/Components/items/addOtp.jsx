@@ -2,13 +2,15 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddOtp = ({ data, update }) => {
+const AddOtp = ({ data, update ,tags}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [inputLabelValue, setInputLabelValue] = useState('');
   const [inputNameValue, setInputNameValue] = useState('');
   const [inputLengthValue, setInputLengthValue] = useState(4);
   const [inputRequireValue, setInputRequireValue] = useState(false);
   const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+  const [selectedTag, setSelectedTag] = useState(tags[0]);
+
 
   const handleAddStep = () => {
     if (inputLabelValue == "" || inputNameValue == "") {
@@ -22,6 +24,7 @@ const AddOtp = ({ data, update }) => {
       label: inputNameValue,
       otpLength: inputLengthValue,
       required: inputRequireValue,
+      tags:selectedTag
     };
 
     let filteredSteps = data?.steps?.map((step) => {
@@ -44,6 +47,7 @@ const AddOtp = ({ data, update }) => {
     setInputNameValue('');
     setInputLengthValue(4);
     setInputRequireValue(false);
+    setSelectedTag('')
   };
 
 
@@ -104,7 +108,17 @@ const AddOtp = ({ data, update }) => {
             onChange={(value)=>{setInputLengthValue(value)}}
             required={true}
           />
-
+             Tag:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
+            required={true}
+          />
           <Checkbox onChange={(e) => { setInputRequireValue(e.target.checked) }}>Required?</Checkbox>
         </div>
       </Modal>

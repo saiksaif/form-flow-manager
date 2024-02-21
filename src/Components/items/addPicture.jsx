@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Modal, Select, Input, InputNumber } from 'antd';
 
-const AddPicture = ({ data, update }) => {
+const AddPicture = ({ data, update ,tags}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [pictureSrcValue, setPictureSrcValue] = useState('');
   const [pictureLabelValue, setPictureLabelValue] = useState('');
@@ -11,6 +11,8 @@ const AddPicture = ({ data, update }) => {
   const [pictureWidthValue, setPictureWidthValue] = useState();
   const [pictureHeightValue, setPictureHeightValue] = useState();
   const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+  const [selectedTag, setSelectedTag] = useState(tags[0]);
+
 
   const handleAddStep = () => {
     if (pictureLabelValue == "" || pictureAltValue == "") {
@@ -26,6 +28,7 @@ const AddPicture = ({ data, update }) => {
       loading: pictureLoadValue,
       width: pictureWidthValue,
       height: pictureHeightValue,
+      tags:selectedTag
     };
 
     let filteredSteps = data?.steps?.map((step) => {
@@ -50,6 +53,7 @@ const AddPicture = ({ data, update }) => {
     setPictureLoadValue('');
     setPictureWidthValue();
     setPictureHeightValue();
+    setSelectedTag('')
   };
 
   const onStepChange = (value) => {
@@ -118,7 +122,17 @@ const AddPicture = ({ data, update }) => {
             ]}
             required={true}
           />
-
+     Tag:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
+            required={true}
+          />
           Picture Size:
           <div className='flex gap-2'>
             <InputNumber 

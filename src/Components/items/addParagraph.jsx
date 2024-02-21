@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { Modal, Select, Input } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
-const AddParagraph = ({ data, update }) => {
+const AddParagraph = ({ data, update ,tags}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [paragraphValue, setParagraphValue] = useState('');
   const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+  const [selectedTag, setSelectedTag] = useState(tags[0]);
+
 
   const handleAddStep = () => {
     if (paragraphValue == "") {
@@ -17,6 +19,7 @@ const AddParagraph = ({ data, update }) => {
     let fieldToAdd = {
       type: "paragraph",
       paragraph: paragraphValue,
+      tags:selectedTag
     };
 
     let filteredSteps = data?.steps?.map((step) => {
@@ -36,6 +39,7 @@ const AddParagraph = ({ data, update }) => {
 
     setShowPopup(false);
     setParagraphValue('')
+    setSelectedTag('')
   };
 
   const onStepChange = (value) => {
@@ -76,6 +80,17 @@ const AddParagraph = ({ data, update }) => {
             placeholder="Enter Paragraph"
             value={paragraphValue}
             onChange={(e) => setParagraphValue(e.target.value)}
+            required={true}
+          />
+                       Tag:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
             required={true}
           />
         </div>

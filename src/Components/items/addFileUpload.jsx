@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddFileUpload = ({ data, update }) => {
+const AddFileUpload = ({ data, update, tags }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [fileTypesValue, setFileTypesValue] = useState([]);
     const [fileCountValue, setFileCountValue] = useState(1);
@@ -13,6 +13,8 @@ const AddFileUpload = ({ data, update }) => {
     const [filePreviewValue, setFilePreviewValue] = useState(false);
     const [fileRequireValue, setFileRequireValue] = useState(false);
     const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+    const [selectedTag, setSelectedTag] = useState('');
+
 
     const handleAddStep = () => {
         if (fileNameValue == "" || fileLabelValue == "") {
@@ -29,7 +31,9 @@ const AddFileUpload = ({ data, update }) => {
             minSize: fileMinSizeValue,
             maxSize: fileMaxSizeValue,
             preview: filePreviewValue,
-            required: fileRequireValue
+            required: fileRequireValue,
+            tags: selectedTag,
+
         };
 
         let filteredSteps = data?.steps?.map((step) => {
@@ -54,6 +58,8 @@ const AddFileUpload = ({ data, update }) => {
         setFileMaxSizeValue(null);
         setFilePreviewValue(false);
         setFileRequireValue(false);
+        setSelectedTag('');
+
     };
 
     const onStepChange = (value) => {
@@ -126,7 +132,17 @@ const AddFileUpload = ({ data, update }) => {
                             </div>
                         ))}
                     </div>
-
+                    Tag:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
+            required={true}
+          />
                     Files Count:
                     <InputNumber 
                         className='w-full'

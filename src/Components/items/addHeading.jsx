@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { Modal, Select, Input } from 'antd';
 
-const AddHeading = ({ data, update }) => {
+const AddHeading = ({ data, update ,tags}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [headingTypeValue, setHeadingTypeValue] = useState('');
   const [headingLabelValue, setHeadingLabelValue] = useState('');
   const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+  const [selectedTag, setSelectedTag] = useState('');
 
   const handleAddStep = () => {
     if (headingTypeValue == "" || headingLabelValue == "") {
@@ -18,6 +19,8 @@ const AddHeading = ({ data, update }) => {
       type: "heading",
       size: headingTypeValue,
       label: headingLabelValue,
+      tags: selectedTag
+
     };
 
     let filteredSteps = data?.steps?.map((step) => {
@@ -38,6 +41,7 @@ const AddHeading = ({ data, update }) => {
     setShowPopup(false);
     setHeadingTypeValue('')
     setHeadingLabelValue('');
+    setSelectedTag('')
   };
 
   const onStepChange = (value) => {
@@ -94,6 +98,17 @@ const AddHeading = ({ data, update }) => {
             placeholder="Enter Heading Label"
             value={headingLabelValue}
             onChange={(e) => setHeadingLabelValue(e.target.value)}
+            required={true}
+          />
+            Tags:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
             required={true}
           />
         </div>
