@@ -33,18 +33,19 @@ const FormSettings = ({ data, update, tags, tagUpdate }) => {
                 </div>
 
                 <div className='flex flex-col col-span-1'>
-                    <label htmlFor="">My Tags:</label>
+                    <p>My Tags:</p>
                     <TagsManager tags={tags} tagUpdate={tagUpdate} />
 
-                    <p>Tags in this form:</p>
+                    <p>Tags Available:</p>
                     <div className='flex flex-row flex-nowrap p-1 gap-1 overflow-x-auto overflow-y-hidden'>
                         {tags?.map((tag, index) => {
                             return (
-                                <div key={index} className='border rounded-lg p-2 w-full whitespace-pre h-[45px]'>
+                                <div key={index} className='border bg-slate-100 rounded-full p-1 px-3 whitespace-pre'>
                                     #{tag}
                                 </div>
                             )
                         })}
+                        {tags?.length < 1 ? "No tags found!" : ""}
                     </div>
                 </div>
             </div>

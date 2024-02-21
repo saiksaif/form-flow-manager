@@ -69,11 +69,11 @@ const TagsManager = ({ tags, tagUpdate }) => {
                 <hr />
                 <br />
                 <div className='my-2'>
-                    <p>Your Tags</p>
+                    <p>Your Tags:</p>
                     <div className='flex flex-col gap-2'>
                         {tags?.map((tag, index) => {
                             return (
-                                <div className='flex justify-between gap-2'>
+                                <div key={index} className='flex justify-between gap-2'>
                                     <li key={index} className='border rounded-lg p-1 px-3 w-full'>
                                         #{tag}
                                     </li>
@@ -83,6 +83,7 @@ const TagsManager = ({ tags, tagUpdate }) => {
                                 </div>
                             )
                         })}
+                        {tags?.length < 1 ? "No tags found!" : ""}
                     </div>
                 </div>
             </Modal>
