@@ -4,10 +4,58 @@ import { Modal, Input, Button } from 'antd';
 const TagsManager = ({ tags, tagUpdate }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [tagValue, setTagValue] = useState('');
+    const fetchData = async () => {
+        try {
+          const response = await fetch("/api/tags", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+  console.log('res,responseponse',response)
+          if (response.ok) {
+            const data = await response.json();
+            setTags(data.data);
+          } else {
+            const { error } = await response.json();
+            console.error(error);
+            // Handle the error as needed
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          // Handle the error as needed
+        } finally {
+        }
+      };
     const addTag = async (selectedTag) => {
         try {
           const response = await fetch("/api/tags", {
             method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: 1,
+              newTags: [selectedTag],
+            }),
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
+            return data.data;
+          } else {
+            const { error } = await response.json();
+            throw new Error(error);
+          }
+        } catch (error) {
+          console.error('Error adding tag:', error);
+          throw error;
+        }
+      };
+      const delTag = async (selectedTag) => {
+        try {
+          const response = await fetch("/api/tags", {
+            method: 'Delete',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -77,7 +125,7 @@ const TagsManager = ({ tags, tagUpdate }) => {
                                     <li key={index} className='border rounded-lg p-1 px-3 w-full'>
                                         #{tag}
                                     </li>
-                                    <Button onClick={() => { deleteHashtag(index) }}>
+                                    <Button onClick={() => { delTag(tag) }}>
                                         ❌
                                     </Button>
                                 </div>
