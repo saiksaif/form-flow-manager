@@ -12,7 +12,6 @@ const TagsManager = ({ tags, tagUpdate }) => {
               "Content-Type": "application/json",
             },
           });
-  console.log('res,responseponse',response)
           if (response.ok) {
             const data = await response.json();
             setTags(data.data);

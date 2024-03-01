@@ -12,7 +12,7 @@ export const authOptions = {
       },
       // @ts-ignore
       async authorize(credentials) {
-        const { email, password } = credentials ?? {}
+        const { email, password } = credentials ?? {};
         if (!email || !password) {
           throw new Error("Missing username or password");
         }
@@ -25,12 +25,29 @@ export const authOptions = {
         if (!user || !(await compare(password, user.password))) {
           throw new Error("Invalid username or password");
         }
-        return user;
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          picture: user.picture,
+        };
       },
     }),
   ],
+  callbacks: {
+    session: ({ session, token }) => {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
+      session.test = "hi";
+      console.log("🚀 ~ file: auth.ts:41 ~ session:", session);
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST };n

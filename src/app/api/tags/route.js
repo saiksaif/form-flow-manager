@@ -3,14 +3,14 @@ import { NextResponse } from "next/server";
 
 export async function GET(req, res) {
   try {
-    console.log('rew',req)
+    // console.log('rew',req)
 
       // Assuming you have a User model with tags field
       const allUsers = await prisma.user.findMany({
         select: { tags: true },
       });
       
-      console.log('allUsers',allUsers)
+      // console.log('allUsers',allUsers)
       // Extract tags from all users
       const allTags = allUsers?.map(user => user.tags || []).flat();
 
