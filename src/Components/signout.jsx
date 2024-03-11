@@ -11,7 +11,7 @@ export default function SignOut() {
     await signOut();
     localStorage.setItem('isLoggedIn',false)
 
-    router.push("/login"); // Redirect to the login page after signing out
+    router.push("/"); // Redirect to the login page after signing out
   };
 
   return (

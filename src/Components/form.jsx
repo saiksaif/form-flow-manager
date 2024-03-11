@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Form({ type }) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-  
+
     return (
         <form
             onSubmit={(e) => {
@@ -28,7 +28,7 @@ export default function Form({ type }) {
                             toast.error(error);
                         } else {
                             router.refresh();
-                            localStorage.setItem('isLoggedIn',true)
+                            localStorage.setItem('isLoggedIn', true)
                             router.push("/formManager");
 
                         }
@@ -52,7 +52,7 @@ export default function Form({ type }) {
                         if (res.status === 200) {
                             toast.success("Account created! Redirecting to login...");
                             setTimeout(() => {
-                                router.push("/login");
+                                router.push("/");
                             }, 2000);
                         } else {
                             const { error } = res;
@@ -98,11 +98,12 @@ export default function Form({ type }) {
                     className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
                 />
             </div>
+            <br />
             <button
                 disabled={loading}
                 className={`${loading
-                        ? "cursor-not-allowed border-primary bg-primary"
-                        : "border-primary bg-primary text-white hover:bg-primary-foreground hover:text-primary"
+                    ? "cursor-not-allowed border-primary bg-black"
+                    : "border border-black hover:border-white  text-black hover:text-white hover:bg-black"
                     } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
             >
                 {loading ? (
@@ -122,7 +123,7 @@ export default function Form({ type }) {
             ) : (
                 <p className="text-center text-sm text-gray-600">
                     Already have an account?{" "}
-                    <Link href="/login" className="font-semibold text-primary">
+                    <Link href="/" className="font-semibold text-primary">
                         Sign in
                     </Link>{" "}
                     instead.

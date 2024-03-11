@@ -1,54 +1,20 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import Form from "@/Components/form";
+import BrandNameCard from "@/Components/brandNameCard";
 
-export default function Home() {
-  const [forms, setForms] = useState([]);
-  const router = useRouter();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/forms", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("data.data[0]?.forms", data.data[0]?.forms);
-          setForms(data.data[0]?.forms);
-        } else {
-          const { error } = await response.json();
-          console.error(error);
-          // Handle the error as needed
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Handle the error as needed
-      } finally {
-      }
-    };
-
-    fetchData();
-  }, []);
+export default function Login() {
   return (
-    <main className="flex p-24 text-center w-100 flex-wrap">
-      {forms?.map((item, index) => {
-        const parsedContent = JSON.parse(item.content);
-        return (
-          <pre
-            key={index}
-            className="mt-2 w-[390px] rounded-md mx-3 border border-[#e5e5e5] p-3 flex flex-col cursor-pointer"
-            onClick={() => router.push(`/formManager/${item?.id}`)}
-          >
-            <p>Name: {parsedContent?.formName}</p>
-            <code className="text-black text-xs text-left">
-              {JSON.stringify(parsedContent, null, 3)}
-            </code>
-          </pre>
-        );
-      })}
-    </main>
+    <div className="flex flex-col gap-8 h-screen w-screen items-center justify-center bg-transparent">
+      <BrandNameCard />
+      <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border shadow-xl">
+        <div className="flex flex-col items-center justify-center space-y-3 border-b bg-white px-4 py-6 pt-8 text-center sm:px-16">
+          <h3 className="text-xl font-semibold text-primary">Sign In</h3>
+          <p className="text-sm text-gray-500">
+            Use your email and password to sign in
+          </p>
+        </div>
+        <Form type="login" />
+      </div>
+    </div>
   );
 }
