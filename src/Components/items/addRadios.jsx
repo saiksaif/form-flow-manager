@@ -2,13 +2,15 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddRadios = ({ data, update }) => {
+const AddRadios = ({ data, update ,tags}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [radioLabelValue, setRadioLabelValue] = useState('');
     const [radioNameValue, setRadioNameValue] = useState('');
     const [radioRequireValue, setRadioRequireValue] = useState(false);
     const [radioOptionsValue, setRadioOptionsValue] = useState([]);
     const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+    const [selectedTag, setSelectedTag] = useState(tags[0]);
+
     let radioOptionsTest;
 
     const handleAddStep = () => {
@@ -22,7 +24,9 @@ const AddRadios = ({ data, update }) => {
             name: radioNameValue,
             label: radioLabelValue,
             options: radioOptionsValue,
-            required: radioRequireValue
+            required: radioRequireValue,
+            tag: selectedTag,
+
         };
 
         let filteredSteps = data?.steps?.map((step) => {
@@ -43,8 +47,12 @@ const AddRadios = ({ data, update }) => {
         setRadioNameValue('');
         setRadioOptionsValue([]);
         setRadioRequireValue(false);
-    };
+        setSelectedTag('');
 
+    };
+    const handleTagChange = (value) => {
+        setSelectedTag(value);
+      };
     const onStepChange = (value) => {
         setStep(value);
     };
@@ -83,6 +91,7 @@ const AddRadios = ({ data, update }) => {
                         }))}
                         required={true}
                     />
+  
 
                     Radios Details:
                     <Input
@@ -98,6 +107,17 @@ const AddRadios = ({ data, update }) => {
                         onChange={(e) => setRadioNameValue(e.target.value)}
                         required={true}
                     />
+                     Tag:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={handleTagChange}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
+            required={true}
+          />
 
                     Add Radio Options
                     <Input

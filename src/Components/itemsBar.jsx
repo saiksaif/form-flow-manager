@@ -15,7 +15,7 @@ import AddHeading from './items/addHeading'
 import AddParagraph from './items/addParagraph'
 import AddPicture from './items/addPicture'
 
-const ItemsBar = ({ data, update }) => {
+const ItemsBar = ({ data, update,tags }) => {
   return (
     <div className='flex flex-col gap-2 p-3 overflow-y-auto'>
       <p className='text-left font-semibold'>Steps</p>
@@ -23,21 +23,21 @@ const ItemsBar = ({ data, update }) => {
       <hr />
 
       <p className='text-left font-semibold'>Fields</p>
-      <AddInput data={data} update={update} />
-      <AddTextArea data={data} update={update} />
-      <AddSelect data={data} update={update} />
-      <AddDatePicker data={data} update={update} />
-      <AddRadios data={data} update={update} />
-      <AddCheckbox data={data} update={update} />
-      <AddPictureUpload data={data} update={update} />
-      <AddFileUpload data={data} update={update} />
-      <AddOtp data={data} update={update} />
+      <AddInput data={data} update={update} tags={tags} />
+      <AddTextArea data={data} update={update} tags={tags} />
+      <AddSelect data={data} update={update} tags={tags} />
+      <AddDatePicker data={data} update={update} tags={tags} />
+      <AddRadios data={data} update={update} tags={tags} />
+      <AddCheckbox data={data} update={update} tags={tags} />
+      <AddPictureUpload data={data} update={update} tags={tags} />
+      <AddFileUpload data={data} update={update} tags={tags} />
+      <AddOtp data={data} update={update} tags={tags} />
       <hr />
 
       <p className='text-left font-semibold'>Content</p>
-      <AddHeading data={data} update={update} />
-      <AddParagraph data={data} update={update} />
-      <AddPicture data={data} update={update} />
+      <AddHeading data={data} update={update} tags={tags}/>
+      <AddParagraph data={data} update={update} tags={tags}/>
+      <AddPicture data={data} update={update} tags={tags}/>
     </div>
   )
 }

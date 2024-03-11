@@ -10,6 +10,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import toast from "react-hot-toast";
 
 const { TabPane } = Tabs;
 
@@ -43,6 +44,7 @@ const LayoutBar = ({ data, update }) => {
   const [selectedStep, setSelectedStep] = useState("");
   const [items, setItems] = useState([]);
 
+  
   const deleteStep = (stepName) => {
     let newSteps = data?.steps?.filter(
       (object) => object.step_name !== stepName

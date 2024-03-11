@@ -2,13 +2,15 @@
 import React, { useState } from 'react';
 import { Modal, Input, Select, Checkbox } from 'antd';
 
-const AddCheckbox = ({ data, update }) => {
+const AddCheckbox = ({ data, update ,tags}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [checkboxLabelValue, setCheckboxLabelValue] = useState('');
     const [checkboxNameValue, setCheckboxNameValue] = useState('');
     const [checkboxValue, setCheckboxValue] = useState('');
     const [checkboxRequireValue, setCheckboxRequireValue] = useState(false);
     const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+    const [selectedTag, setSelectedTag] = useState(tags[0]);
+
 
     const handleAddStep = () => {
         if (checkboxLabelValue == "" || checkboxNameValue == "") {
@@ -21,7 +23,9 @@ const AddCheckbox = ({ data, update }) => {
             name: checkboxNameValue,
             label: checkboxLabelValue,
             value: checkboxValue,
-            required: checkboxRequireValue
+            required: checkboxRequireValue,
+            tags: selectedTag,
+
         };
 
         let filteredSteps = data?.steps?.map((step) => {
@@ -42,6 +46,8 @@ const AddCheckbox = ({ data, update }) => {
         setCheckboxNameValue('');
         setCheckboxValue('');
         setCheckboxRequireValue(false);
+        setSelectedTag('');
+
     };
 
     const onStepChange = (value) => {
@@ -99,6 +105,17 @@ const AddCheckbox = ({ data, update }) => {
                         onChange={(e) => setCheckboxValue(e.target.value)}
                         required={true}
                     />
+                                 Tag:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
+            required={true}
+          />
 
                     <Checkbox onChange={(e) => { setCheckboxRequireValue(e.target.checked) }}>Required?</Checkbox>
                 </div>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Modal, Input, InputNumber, Select, Checkbox } from 'antd';
 
-const AddPictureUpload = ({ data, update }) => {
+const AddPictureUpload = ({ data, update ,tags}) => {
     const [showPopup, setShowPopup] = useState(false);
     const [pictureTypesValue, setPictureTypesValue] = useState([]);
     const [pictureCountValue, setPictureCountValue] = useState(1);
@@ -15,6 +15,8 @@ const AddPictureUpload = ({ data, update }) => {
     const [picturePreviewValue, setPicturePreviewValue] = useState(false);
     const [pictureRequireValue, setPictureRequireValue] = useState(false);
     const [stepValue, setStep] = useState(data?.steps[0]?.step_name);
+    const [selectedTag, setSelectedTag] = useState('');
+
 
     const handleAddStep = () => {
         if (pictureNameValue == "" || pictureLabelValue == "") {
@@ -33,7 +35,9 @@ const AddPictureUpload = ({ data, update }) => {
             minHW: pictureMinHWValue,
             maxHW: pictureMaxHWValue,
             preview: picturePreviewValue,
-            required: pictureRequireValue
+            required: pictureRequireValue,
+            tags: selectedTag,
+
         };
 
         let filteredSteps = data?.steps?.map((step) => {
@@ -60,6 +64,8 @@ const AddPictureUpload = ({ data, update }) => {
         setPictureMaxHWValue(null);
         setPicturePreviewValue(false);
         setPictureRequireValue(false);
+        setSelectedTag('');
+
     };
 
     const onStepChange = (value) => {
@@ -132,7 +138,17 @@ const AddPictureUpload = ({ data, update }) => {
                             </div>
                         ))}
                     </div>
-
+                    Tags:
+          <Select
+            className='w-full'
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e)}
+            options={tags.map((tag) => ({
+              label: tag,
+              value: tag,
+            }))}
+            required={true}
+          />
                     Pictures Count:
                     <InputNumber 
                         className='w-full'
