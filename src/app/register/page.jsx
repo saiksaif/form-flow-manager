@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Form from "@/Components/form";
-import BrandNameCard from "@/Components/brandNameCard";
+import Form from "@/Components/form.jsx";
+import BrandNameCard from "@/Components/brandNameCard.jsx";
 
 export default function Login() {
   return (

@@ -16,10 +16,10 @@ export default function SignOut() {
 
   return (
     <button
-      className="px-2 mx-2 flex items-center border rounded-md p-2 "
+      className="flex items-center border rounded-xl p-2 w-full"
       onClick={handleSignOut}
     >
-      Signout <LogOut className="ml-3" fontSize={14}/>
+      <LogOut className="mr-3 rotate-180" fontSize={14}/> Signout
     </button>
   );
 }

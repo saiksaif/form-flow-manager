@@ -8,7 +8,7 @@
     --p: calc(var(--s) / 2);
     --c1: red;
     --c2: rgb(171, 4, 4);
-    --c3: white;
+    --c3: rgb(255, 184, 184);
     --bg: var(--c3);
     --d: 7000ms;
     --e: cubic-bezier(0.76, 0, 0.24, 1);

@@ -3,43 +3,32 @@ import { NextResponse } from "next/server";
 
 export async function GET(req, res) {
     try {
-      // console.log('req', req);
-  
+      const { searchParams } = new URL(req.url);
+      const email = searchParams.get("email");
+
+      // console.log(email);
       // Assuming you have a User model with forms relation
-      const allUsers = await prisma.user.findMany({
-        select: {
-          forms: {
-            select: {
-              id: true,
-              createdAt: true,
-              updatedAt: true,
-              content: true,
-              userId:true,
-            },
-          },
-        },
-      });
+      const allForms = await prisma.form.findMany({
+        where: {
+          userEmail: email
+        }
+      })
   
-      // console.log('allUsers', allUsers);
-  
-      return NextResponse.json({ success: true, data: allUsers });
+      return NextResponse.json({ success: true, data: allForms });
+
     } catch (error) {
       console.log('error', error);
       console.error("Error in API route:", error);
       return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
   }
-  
-
 
   export async function POST(req, res) {
     try {
-      const { userId, formData } = await req.json();
-      // console.log("-------------------->data here",userId,formData)
-  
+      const { email, formData } = await req.json();
       // Fetch the existing user (including forms)
       const existingUser = await prisma.user.findUnique({
-        where: { id: userId },
+        where: { email: email },
         // include: { forms: true },
       });
   
@@ -56,7 +45,6 @@ export async function GET(req, res) {
           data: formData,
         });
       } else {
-        // console.log('newform')
         // Create new form
         updatedForm = await prisma.form.create({
           data: {
@@ -67,6 +55,7 @@ export async function GET(req, res) {
       }
   
       return NextResponse.json({ success: true, data: updatedForm });
+
     } catch (error) {
       console.error("Error in POST API route:", error);
       return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });

@@ -29,7 +29,7 @@ export default function Form({ type }) {
                         } else {
                             router.refresh();
                             localStorage.setItem('isLoggedIn', true)
-                            router.push("/formManager");
+                            router.push("/home");
 
                         }
                     });
@@ -102,8 +102,8 @@ export default function Form({ type }) {
             <button
                 disabled={loading}
                 className={`${loading
-                    ? "cursor-not-allowed border-primary bg-black"
-                    : "border border-black hover:border-white  text-black hover:text-white hover:bg-black"
+                    ? "cursor-not-allowed border-primary bg-red-500 text-white"
+                    : "border border-red-500 hover:border-white  text-red-500 hover:text-white hover:bg-red-600"
                     } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
             >
                 {loading ? (
@@ -115,7 +115,7 @@ export default function Form({ type }) {
             {type === "login" ? (
                 <p className="text-center text-sm text-gray-600">
                     Don&apos;t have an account?{" "}
-                    <Link href="/register" className="font-semibold text-primary">
+                    <Link href="/register" className="font-semibold text-red-600">
                         Sign up
                     </Link>{" "}
                     for free.
@@ -123,7 +123,7 @@ export default function Form({ type }) {
             ) : (
                 <p className="text-center text-sm text-gray-600">
                     Already have an account?{" "}
-                    <Link href="/" className="font-semibold text-primary">
+                    <Link href="/" className="font-semibold text-red-600">
                         Sign in
                     </Link>{" "}
                     instead.
