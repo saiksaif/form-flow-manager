@@ -13,7 +13,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog.jsx"
+} from "@/Components/ui/alert-dialog.jsx"
 import toast from 'react-hot-toast';
 import { Trash2 } from 'lucide-react';
 
