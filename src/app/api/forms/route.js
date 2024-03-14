@@ -25,34 +25,45 @@ export async function GET(req, res) {
 
   export async function POST(req, res) {
     try {
+      console.log("====================================")
       const { email, formData } = await req.json();
       // Fetch the existing user (including forms)
+      if (!email) {
+        return NextResponse.json({ error: "No Email Found" }, { status: 500 });
+      }
       const existingUser = await prisma.user.findUnique({
         where: { email: email },
         // include: { forms: true },
       });
-  
+      
       // Update or create a form based on formName
       let updatedForm;
       // console.log('------------',JSON.parse(formData?.content))
-      const existingForm = existingUser.forms.find(form => form.id == JSON.parse(formData?.id)) ?? null;
+      const existingForm = existingUser?.forms?.find(form => form.name == JSON.parse(formData?.formName)) ?? null;
       // console.log('existingform',existingForm)
-  
+      
       if (existingForm) {
         // Update existing form
         updatedForm = await prisma.form.update({
-          where: { id: existingForm.id },
-          data: formData,
+          where: { name: formData?.formName },
+          data: {
+            name: formData?.formName,
+            content: JSON.stringify(formData)
+          },
         });
       } else {
         // Create new form
         updatedForm = await prisma.form.create({
           data: {
-            ...formData,
-            userId: userId,
+            // ...formData,
+            name: formData?.formName,
+            userEmail: email,
+            content: JSON.stringify(formData)
           },
         });
       }
+      // console.log(existingForm)
+      // return true;
   
       return NextResponse.json({ success: true, data: updatedForm });
 

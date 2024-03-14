@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     // <html lang="en">
     //   <body className={inter.className}>
-        <div className="w-[100vw] h-[100vh] flex">
+        <div className="w-[100vw] h-[100vh] flex overflow-hidden">
           <div className="w-[240px] h-100 bg-[red] text-white flex flex-col gap-8 p-6 justify-between items-center">
             <div className="text-lg font-mono font-extrabold">
               FormFlowManager
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
             <div className="w-full"><SignOut /></div>
           </div>
           <div className="h-[100vh] w-full bg-[red] p-6">
-            <div className="h-full w-full bg-white text-black rounded-3xl shadow-xl shadow-red-800">
+            <div className="h-full w-full bg-white text-black rounded-3xl shadow-xl shadow-red-800 overflow-hidden">
               {children}
             </div>
           </div>

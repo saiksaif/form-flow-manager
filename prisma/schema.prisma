@@ -11,18 +11,20 @@ datasource db {
 }
 
 model Form {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  name      String   @unique
   content   String?
   user      User     @relation(fields: [userEmail], references: [email])
-  userEmail    String    
+  userEmail String
 }
+
 model User {
-  id      String      @id @default(uuid())
-  email   String   @unique
+  id       String   @id @default(uuid())
+  email    String   @unique
   password String
-  name    String?
-  tags    String[]  // Changed to an array of strings
-  forms   Form[]
+  name     String?
+  tags     String[] // Changed to an array of strings
+  forms    Form[]
 }
