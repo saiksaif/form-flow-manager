@@ -84,8 +84,8 @@ const FormManager = () => {
     }
   };
 
-  console.warn(session)
-  console.log("session")
+  // console.warn(session)
+  // console.log("session")
   console.log('currentForm', startJson)
   useEffect(() => {
     const fetchData = async () => {

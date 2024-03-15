@@ -14,9 +14,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog.jsx"
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+  } from "@/Components/ui/hover-card"
+  
 
 import toast from 'react-hot-toast';
 import { Trash2 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
     // let session;
@@ -89,6 +96,25 @@ export default function Home() {
         errorMsg: "Something went wrong",
     };
 
+    const deleteForm = async (id) => {
+        try {
+            const response = await axios.delete(`/api/forms?formId=${id}`);
+
+            if (response.data.success) {
+                console.log('Form deleted successfully:', response.data.data);
+                toast.success('Form deleted Successfully!');
+                // fetchData();
+                setFormsUpdate(formsUpdate + 1);
+            } else {
+                console.error('Error deleting form:', response.data.error);
+                toast.error("Error deleting form.")
+            }
+        } catch (error) {
+            console.error('Error in DELETE request:', error);
+            toast.error("Unable to Delete Form.")
+        }
+    }
+
     return (
         <main className="p-6 h-full overflow-y-hidden">
             <div className="text-xl font-extrabold font-mono underline">
@@ -127,29 +153,33 @@ export default function Home() {
                     const parsedContent = JSON.parse(item.content);
                     // console.log(parsedContent)
                     return (
-                        <a href="#" key={index}>
-                            <div className='flex flex-col justify-between items-center py-2 text-left bg-red-400 h-[180px] duration-200 rounded-xl shadow-lg hover:shadow-xl shadow-gray-300 hover:shadow-gray-400 text-red-100 hover:text-white'>
-                                <div className='w-full px-2'>
-                                    <div className='py-2'>
-                                        {parsedContent?.tags ? (<div>
-                                            <strong>Tags: </strong>
-                                        </div>) : "No tags"}
+                        <HoverCard key={index}>
+                                <HoverCardTrigger href={`/home/form/${item.id}`}>
+                                {/* <a href="#" > */}
+                                    <div className='flex flex-col justify-between items-center py-2 text-left bg-red-400 h-[180px] duration-200 rounded-xl shadow-lg hover:shadow-xl shadow-gray-300 hover:shadow-gray-400 text-red-100 hover:text-white'>
+                                        <div className='w-full px-2'>
+                                            <div className='py-2'>
+                                                {parsedContent?.tags ? (<div>
+                                                    <strong>Tags: </strong>
+                                                </div>) : "No tags"}
+                                            </div>
+                                            <div className='py-2'>
+                                                {parsedContent?.createdAt}
+                                            </div>
+                                            <div>
+                                                <strong>Form Type:</strong> {parsedContent?.multi_step ? "Multi Step" : "Single Step"}
+                                            </div>
+                                        </div>
+                                        <p className="text-center font-extrabold pb-4">{parsedContent?.formName}</p>
                                     </div>
-                                    <div className='py-2'>
-                                        {parsedContent?.createdAt}
-                                    </div>
-                                    <div>
-                                        <strong>Form Type:</strong> {parsedContent?.multi_step ? "Multi Step" : "Single Step"}
-                                    </div>
-                                </div>
-                                <button className='border-0'>
-                                    <Trash2 />
-                                </button>
-                                <p className="text-center font-extrabold pb-4">{parsedContent?.formName}</p>
-                                {/* <div>
-                                </div> */}
-                            </div>
-                        </a>
+                                {/* </a> */}
+                                </HoverCardTrigger>
+                                <HoverCardContent className="w-[100px]">
+                                        <button onClick={()=>deleteForm(item.id)} className='p-2 border-0 rounded text-red-500 hover:text-white bg-white hover:bg-[red] duration-200'>
+                                            <Trash2 />
+                                        </button>
+                                </HoverCardContent>
+                            </HoverCard>                      
                     );
                 })}
             </div>

@@ -16,7 +16,7 @@ export default function SignOut() {
 
   return (
     <button
-      className="flex items-center border rounded-xl p-2 w-full"
+      className="flex items-center border rounded-xl p-2 w-full hover:bg-white hover:text-red-500 duration-200"
       onClick={handleSignOut}
     >
       <LogOut className="mr-3 rotate-180" fontSize={14}/> Signout
