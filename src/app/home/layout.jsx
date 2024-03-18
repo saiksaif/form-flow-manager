@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
             </ul>
             <div className="w-full"><SignOut /></div>
           </div>
-          <div className="h-[100vh] w-full bg-[red] p-6">
+          <div className="h-[100vh] w-full bg-[red] p-6 ps-0">
             <div className="h-full w-full bg-white text-black rounded-3xl shadow-xl shadow-red-800 overflow-hidden">
               {children}
             </div>

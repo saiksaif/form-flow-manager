@@ -5,8 +5,18 @@ export async function GET(req, res) {
   try {
     const { searchParams } = new URL(req.url);
     const email = searchParams.get("email");
-
-    // console.log(email);
+    const formId = searchParams.get("formId");
+    
+    // For Getting one form using ID
+    if (formId) {
+      const form = await prisma.form.findFirst({
+        where: {
+          id: formId
+        }
+      });
+      return NextResponse.json({ success: true, data: form });
+    }
+    
     // Assuming you have a User model with forms relation
     const allForms = await prisma.form.findMany({
       where: {
