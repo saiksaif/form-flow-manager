@@ -19,13 +19,14 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/Components/ui/hover-card"
-  
+import { Skeleton } from "@/Components/ui/skeleton";
 
 import toast from 'react-hot-toast';
 import { Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
+    const [loaded, setLoaded] = useState(false);
     // let session;
     const { data: session, status } = useSession()
 
@@ -39,12 +40,13 @@ export default function Home() {
         const fetchData = async () => {
             try {
                 let email = session.user.email;
-                const response = await fetch(`/api/forms?email=${email}`);                
+                const response = await fetch(`/api/forms?email=${email}`);
                 if (response.ok) {
                     const data = await response.json();
                     console.log("data", data.data);
                     console.log(status);
                     setForms(data.data);
+                    setLoaded(true)
                 } else {
                     const { error } = await response.json();
                     console.error(error);
@@ -85,11 +87,11 @@ export default function Home() {
         formName: newFormName,
         multi_step: false,
         steps: [
-        {
-            step_name: "Step 1",
-            onStepComplete: "",
-            fields: [],
-        },
+            {
+                step_name: "Step 1",
+                onStepComplete: "",
+                fields: [],
+            },
         ],
         onSubmit: "http://0.0.0.0:3000/some/api",
         successMsg: "Data was saved",
@@ -144,18 +146,19 @@ export default function Home() {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={()=>createForm(session?.user?.email, formDataInit)} className="bg-red-500 hover:bg-red-600" disabled={(!newFormName || newFormName == "" || newFormName.length < 4) ? true : false}>Continue</AlertDialogAction>
+                            <AlertDialogAction onClick={() => createForm(session?.user?.email, formDataInit)} className="bg-red-500 hover:bg-red-600" disabled={(!newFormName || newFormName == "" || newFormName.length < 4) ? true : false}>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
 
-                {forms?.map((item, index) => {
-                    const parsedContent = JSON.parse(item.content);
-                    // console.log(parsedContent)
-                    return (
-                        <HoverCard key={index}>
+                {loaded ?
+                    (<>{ forms?.map((item, index) => {
+                        const parsedContent = JSON.parse(item.content);
+                        // console.log(parsedContent)
+                        return (
+                            <HoverCard key={index}>
                                 <HoverCardTrigger href={`/home/form/${item.id}`}>
-                                {/* <a href="#" > */}
+                                    {/* <a href="#" > */}
                                     <div className='flex flex-col justify-between items-center py-2 text-left bg-red-400 h-[180px] duration-200 rounded-xl shadow-lg hover:shadow-xl shadow-gray-300 hover:shadow-gray-400 text-red-100 hover:text-white'>
                                         <div className='w-full px-2'>
                                             <div className='py-2'>
@@ -172,16 +175,18 @@ export default function Home() {
                                         </div>
                                         <p className="text-center font-extrabold pb-4">{parsedContent?.formName}</p>
                                     </div>
-                                {/* </a> */}
+                                    {/* </a> */}
                                 </HoverCardTrigger>
                                 <HoverCardContent className="w-[100px]">
-                                        <button onClick={()=>deleteForm(item.id)} className='p-2 border-0 rounded text-red-500 hover:text-white bg-white hover:bg-[red] duration-200'>
-                                            <Trash2 />
-                                        </button>
+                                    <button onClick={() => deleteForm(item.id)} className='p-2 border-0 rounded text-red-500 hover:text-white bg-white hover:bg-[red] duration-200'>
+                                        <Trash2 />
+                                    </button>
                                 </HoverCardContent>
-                            </HoverCard>                      
-                    );
-                })}
+                            </HoverCard>
+                        );
+                    })}</>) : (
+                    <Skeleton className="h-[180px] rounded-xl shadow-gray-300 bg-red-200" />
+                )}
             </div>
         </main>
     );

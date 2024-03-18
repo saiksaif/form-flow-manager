@@ -7,33 +7,48 @@ import LayoutBar from "@/Components/layoutBar";
 import { SaveIcon } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/Components/ui/alert-dialog"
+import { Skeleton } from "@/Components/ui/skeleton";
 // import { useSession } from "next-auth/client"
 
 const FormManager = () => {
+  const [loaded, setLoaded] = useState(false);
   // const [session, loading] = useSession();
   const [startTags, setStartTags] = useState(["registeration"]);
 
-  const [startJson, setStartJson] = useState({content: JSON.stringify({
-    formName: "demo form",
-    multi_step: false,
-    steps: [
-      {
-        step_name: "Personal",
-        onStepComplete: "",
-        fields: [],
-      },
-    ],
-    onSubmit: "http://0.0.0.0:3000/some/api",
-    successMsg: "Data was saved",
-    errorMsg: "Something went wrong",
-  })});
+  const [startJson, setStartJson] = useState({
+    content: JSON.stringify({
+      formName: "demo form",
+      multi_step: false,
+      steps: [
+        {
+          step_name: "Personal",
+          onStepComplete: "",
+          fields: [],
+        },
+      ],
+      onSubmit: "http://0.0.0.0:3000/some/api",
+      successMsg: "Data was saved",
+      errorMsg: "Something went wrong",
+    })
+  });
 
   const router = usePathname();
   const [pageFormId, setPageFormId] = useState(router?.split('/')[3]);
   // console.log('curreee-------11-1-1-1-', router?.split('/')[3])
-  
+
   const [tags, setTags] = useState([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,6 +111,10 @@ const FormManager = () => {
 
         if (response.ok) {
           const data = await response.json();
+          // console.log(data.data)
+
+          setStartJson(data?.data)
+          setLoaded(true);
           // console.log('data.data[0]?.forms-------------------3', data.data?.forms?.find(form => form?.id == router?.split('/')[2]))
           // setStartJson(data.data[0]?.forms?.find(form => form?.id == router?.split('/')[2]));
         } else {
@@ -111,29 +130,29 @@ const FormManager = () => {
 
     fetchData();
   }, []);
-  // console.log('startJson=----------------------', startJson)
+
   return (
     <div>
-      {/* <div className="flex justify-between items-center mx-5 ">
-        {" "}
-        <p className="text-center font-semibold my-4">Form Manager </p>
-        <span
-          onClick={() => {
-            addForm(JSON.stringify(startJson));
-          }}
-          className="flex items-center gap-3 cursor-pointer"
-        >
-          <SaveIcon className="cursor-pointer" size={24} /> Save Form
-        </span>
-      </div>
-      <hr /> */}
       <div>
-        <FormSettings
-          data={JSON.parse(startJson.content)}
-          update={setStartJson}
-          tags={tags}
-          tagUpdate={setStartTags}
-        />
+        {loaded ? (
+          <FormSettings
+            data={JSON.parse(startJson?.content)}
+            update={setStartJson}
+            tags={tags}
+            tagUpdate={setStartTags}
+            dataStatus={loaded}
+          />
+        ) : (
+          <div className='px-4 py-2'>
+            <p className='text-lg font-semibold underline'>
+              Form Settings
+            </p>
+            <div className='pt-1'>
+              <Skeleton className="h-[125px] w-full rounded-xl  bg-gray-200" />
+            </div>
+          </div>
+        )}
+
         <br />
       </div>
       <div className="grid grid-cols-8 h-[70vh] text-center">
@@ -145,22 +164,49 @@ const FormManager = () => {
         <div className="border overflow-y-auto col-span-3">
           Layout Bar
           <br />
-          <LayoutBar data={JSON.parse(startJson.content)} update={setStartJson} />
+          {loaded ? (
+            <LayoutBar data={JSON.parse(startJson.content)} update={setStartJson} />
+          ) : (
+            <Skeleton className="h-[200px] rounded-xl bg-gray-200 m-4" />
+          )}
         </div>
         <div className="border overflow-y-auto col-span-3">
           JSON Bar
           <br />
           <div className="text-left">
-            <JsonBar json={JSON.parse(startJson?.content)} name={"Form"} />
+            {loaded ? (
+              <JsonBar json={JSON.parse(startJson?.content)} name={"Form"} />
+            ) : (
+              <Skeleton className="h-[400px] rounded-xl bg-gray-200 m-4" />
+            )}
           </div>
-          <button
-            onClick={() => {
-              addForm(JSON.stringify(startJson));
-            }}
-            className="absolute bottom-8 right-8 flex bg-[red] text-white shadow-lg hover:bg-[darkred] duration-100 rounded-2xl p-2"
-          >
-            <SaveIcon className="cursor-pointer pr-1" size={24} /> Save Form
-          </button>
+          <div className="absolute bottom-8 right-8 flex justify-between gap-3">
+            <AlertDialog>
+              <AlertDialogTrigger className="bg-[blue] text-white shadow-lg hover:bg-[darkblue] duration-100 rounded-2xl p-2">
+                Preview
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Form Name:</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete your account
+                    and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction className="bg-[red] hover:bg-[darkred]">Close</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <button
+              onClick={() => {
+                addForm(JSON.stringify(startJson));
+              }}
+              className="flex bg-[red] text-white shadow-lg hover:bg-[darkred] duration-100 rounded-2xl p-2"
+            >
+              <SaveIcon className="cursor-pointer pr-1" size={24} /> Save Form
+            </button>
+          </div>
         </div>
       </div>
     </div>

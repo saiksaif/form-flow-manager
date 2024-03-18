@@ -56,7 +56,7 @@ const AddDatePicker = ({ data, update, tags }) => {
   return (
     <div>
       <button
-        className='border rounded bg-gray-300 min-w-[150px] w-full flex justify-between px-4 p-1'
+        className='border rounded border-red-200 bg-red-100 min-w-[150px] w-full flex justify-between px-4 p-1'
         onClick={() => setShowPopup(true)}
       >
         Add Date Picker
