@@ -19,15 +19,21 @@ import {
   AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog"
 import { Skeleton } from "@/Components/ui/skeleton";
-// import { useSession } from "next-auth/client"
+import toast from "react-hot-toast";
 
 const FormManager = () => {
   const [loaded, setLoaded] = useState(false);
-  // const [session, loading] = useSession();
   const [startTags, setStartTags] = useState(["registeration"]);
 
+  const router = usePathname();
+  const [pageFormId, setPageFormId] = useState(router?.split('/')[3]);
+
   const [startJson, setStartJson] = useState({
-    content: JSON.stringify({
+    // id: pageFormId,
+    // createdAt: "2024-03-18T09:51:04.234Z",
+    // updatedAt: "2024-03-18T09:51:04.234Z",
+    // name: "demo form",
+    // content: {
       formName: "demo form",
       multi_step: false,
       steps: [
@@ -40,12 +46,9 @@ const FormManager = () => {
       onSubmit: "http://0.0.0.0:3000/some/api",
       successMsg: "Data was saved",
       errorMsg: "Something went wrong",
-    })
+    // },
+    // userEmail: "admin@admin.com"
   });
-
-  const router = usePathname();
-  const [pageFormId, setPageFormId] = useState(router?.split('/')[3]);
-  // console.log('curreee-------11-1-1-1-', router?.split('/')[3])
 
   const [tags, setTags] = useState([]);
 
@@ -111,20 +114,21 @@ const FormManager = () => {
 
         if (response.ok) {
           const data = await response.json();
-          // console.log(data.data)
 
-          setStartJson(data?.data)
+          setStartJson(
+            JSON.parse(data.data.content)
+            // ...data.data,
+            // content: JSON.parse(data.data.content)
+          )
           setLoaded(true);
-          // console.log('data.data[0]?.forms-------------------3', data.data?.forms?.find(form => form?.id == router?.split('/')[2]))
-          // setStartJson(data.data[0]?.forms?.find(form => form?.id == router?.split('/')[2]));
         } else {
           const { error } = await response.json();
           console.error(error);
-          // Handle the error as needed
+          toast.error("Unable to load Form.")
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        // Handle the error as needed
+        toast.error("Unable to load Form.")
       }
     };
 
@@ -136,7 +140,7 @@ const FormManager = () => {
       <div>
         {loaded ? (
           <FormSettings
-            data={JSON.parse(startJson?.content)}
+            data={startJson}
             update={setStartJson}
             tags={tags}
             tagUpdate={setStartTags}
@@ -159,13 +163,17 @@ const FormManager = () => {
         <div className="border overflow-y-auto col-span-2">
           Items Bar
           <br />
-          <ItemsBar data={JSON.parse(startJson.content)} tags={tags} update={setStartJson} />
+          {loaded ? (
+            <ItemsBar data={startJson} tags={tags} update={setStartJson} />
+          ) : (
+            <Skeleton className="h-[500px] rounded-xl bg-red-200 m-4" />
+          )}
         </div>
         <div className="border overflow-y-auto col-span-3">
           Layout Bar
           <br />
           {loaded ? (
-            <LayoutBar data={JSON.parse(startJson.content)} update={setStartJson} />
+            <LayoutBar data={startJson} update={setStartJson} />
           ) : (
             <Skeleton className="h-[200px] rounded-xl bg-gray-200 m-4" />
           )}
@@ -175,7 +183,7 @@ const FormManager = () => {
           <br />
           <div className="text-left">
             {loaded ? (
-              <JsonBar json={JSON.parse(startJson?.content)} name={"Form"} />
+              <JsonBar json={startJson} name={"Form"} />
             ) : (
               <Skeleton className="h-[400px] rounded-xl bg-gray-200 m-4" />
             )}

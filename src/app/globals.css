@@ -25,9 +25,9 @@
         calc(var(--p) * -1) calc(var(--p) * 1),
         calc(var(--p) * 1) calc(var(--p) * -1),
         calc(var(--p) * -1) calc(var(--p) * 0);
-    animation:
+    /* animation:
         color var(--d) var(--e) infinite,
-        position var(--d) var(--e) infinite;
+        position var(--d) var(--e) infinite; */
 }
 
 @keyframes color {
