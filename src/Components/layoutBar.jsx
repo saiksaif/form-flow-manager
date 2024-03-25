@@ -299,6 +299,7 @@ const LayoutBar = ({ data, update }) => {
               <DraggableField
                 field={field}
                 index={field_id}
+                key={field_id}
                 moveField={(fromIndex, toIndex) =>
                   moveField(step.step_name, fromIndex, toIndex)
                 }

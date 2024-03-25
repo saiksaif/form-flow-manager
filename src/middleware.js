@@ -2,15 +2,17 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(req) {
-  // Get the pathname of the request (e.g. /, /protected)
   const path = req.nextUrl.pathname;
-
-  // This line is disabling the middleware
-  // return NextResponse.next();
 
   // If it's the root path, just render it
   // if (path === "/") {
   //   return NextResponse.next();
+  // }
+
+  // if (path.startsWith(`/api/`)) {
+  //   if (!req.headers.get("referer")?.includes("http://localhost:3000") || !req.headers.get("referer")?.includes("https://form-flow-manager-seven.vercel.app")) {
+  //   return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  //   }
   // }
 
   const session = await getToken({
@@ -19,7 +21,7 @@ export default async function middleware(req) {
   });
 
   // console.log(session)
-  if (!session && path === "/formManager") {
+  if (!session && (path.includes("/home") || path.includes("/api/forms") || path.includes("/api/tags"))) {
     return NextResponse.redirect(new URL("/", req.url));
   } else if (session && (path === "/" || path === "/register")) {
     return NextResponse.redirect(new URL("/home", req.url));

@@ -44,14 +44,11 @@ export async function POST(req, res) {
     }
     const existingUser = await prisma.user.findUnique({
       where: { email: email },
-      // include: { forms: true },
     });
     
     // Update or create a form based on formName
     let updatedForm;
-    // console.log('------------',JSON.parse(formData?.content))
     const existingForm = existingUser?.forms?.find(form => form.name == JSON.parse(formData?.formName)) ?? null;
-    // console.log('existingform',existingForm)
     
     if (existingForm) {
       // Check if the email of user of existing form is same as this users email or not
@@ -74,6 +71,36 @@ export async function POST(req, res) {
   } catch (error) {
     console.error("Error in POST API route:", error);
     return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
+  }
+}
+
+export async function PATCH(req) {
+  try {
+    const { id, name, content, userEmail } = await req.json();
+
+    if (!id || id=="" || !userEmail || userEmail=="") {
+      return NextResponse.json(
+        { error: "Form ID or User Email is missing!" },
+        { status: 500 }
+      );
+    }
+
+    const updateForm = await prisma.form.update({
+      where: {
+        id: id
+      },
+      data: {
+        name: name,
+        content: content
+      }
+    })
+
+    return NextResponse.json({ success: true, data: updateForm });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Some error occured! "+error },
+      { status: 500 }
+    );
   }
 }
 

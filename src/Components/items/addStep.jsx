@@ -6,6 +6,7 @@ const AddStep = ({ data, update }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [onComplete, setOnComplete] = useState('');
+  const [stepCompleteBtn, setStepCompleteBtn] = useState('');
 
   const handleAddStep = () => {
     const isStepNameExists = data?.steps?.some(step => step.step_name === inputValue);
@@ -24,6 +25,7 @@ const AddStep = ({ data, update }) => {
         {
           "step_name": inputValue,
           "onStepComplete": onComplete,
+          "stepCompleteBtn": stepCompleteBtn,
           "fields": []
         }
       ]
@@ -32,6 +34,7 @@ const AddStep = ({ data, update }) => {
     setShowPopup(false);
     setInputValue('');
     setOnComplete('');
+    setStepCompleteBtn('');
   };
 
   return (
@@ -61,6 +64,15 @@ const AddStep = ({ data, update }) => {
         On Complete (Optional):
         <Input
           placeholder="Enter API to run on completing step."
+          value={onComplete}
+          onChange={(e) => setOnComplete(e.target.value)}
+        />
+        <br />
+        <br />
+
+        Step Complete Button Text (Optional):
+        <Input
+          placeholder="Enter text to show on step complete button."
           value={onComplete}
           onChange={(e) => setOnComplete(e.target.value)}
         />
