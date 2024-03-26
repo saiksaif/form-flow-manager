@@ -28,8 +28,7 @@ export const authOptions = {
         return {
           id: user.id,
           name: user.name,
-          email: user.email,
-          picture: user.picture,
+          email: user.email
         };
       },
     }),
@@ -37,11 +36,11 @@ export const authOptions = {
   callbacks: {
     session: ({ session, token }) => {
       if (token) {
-        session.user.id = token.id;
-        session.user.name = token.name;
+        session.user.id = token.sub;
+        // session.user.token = token.jti
         session.user.email = token.email;
       }
-      session.test = "hi";
+      // session.test = "hi";
       console.log("🚀 ~ file: auth.ts:41 ~ session:", session);
       return session;
     },
