@@ -14,6 +14,7 @@ import AddFileUpload from './items/addFileUpload'
 import AddHeading from './items/addHeading'
 import AddParagraph from './items/addParagraph'
 import AddPicture from './items/addPicture'
+import AddActionBtn from './items/addActionBtn'
 
 const ItemsBar = ({ data, update,tags }) => {
   return (
@@ -38,6 +39,7 @@ const ItemsBar = ({ data, update,tags }) => {
       <AddHeading data={data} update={update} tags={tags}/>
       <AddParagraph data={data} update={update} tags={tags}/>
       <AddPicture data={data} update={update} tags={tags}/>
+      <AddActionBtn data={data} update={update} tags={tags}/>
     </div>
   )
 }

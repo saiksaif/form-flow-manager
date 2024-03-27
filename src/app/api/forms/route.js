@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 export async function GET(req, res) {
   try {
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-    console.log("==--==", session)
+    // console.log("==--==", session)
 
     // Checking if Session exists
     if (!session) {

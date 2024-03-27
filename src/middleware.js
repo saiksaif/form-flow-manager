@@ -22,6 +22,8 @@ export default async function middleware(req) {
 
   // console.log(session)
   if (!session && (path.includes("/home") || path.includes("/api/forms") || path.includes("/api/tags"))) {
+    if (path.includes("/api/forms") || path.includes("/api/tags"))
+      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
     return NextResponse.redirect(new URL("/", req.url));
   } else if (session && (path === "/" || path === "/register")) {
     return NextResponse.redirect(new URL("/home", req.url));
