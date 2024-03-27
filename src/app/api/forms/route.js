@@ -5,7 +5,6 @@ import { getToken } from "next-auth/jwt";
 export async function GET(req, res) {
   try {
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-    // console.log("==--==", session)
 
     // Checking if Session exists
     if (!session) {
@@ -54,11 +53,22 @@ export async function GET(req, res) {
 
 export async function POST(req, res) {
   try {
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
+    // Checking if Session exists
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
+    }
+
     console.log("====================================")
     const { email, formData } = await req.json();
     // Fetch the existing user (including forms)
     if (!email) {
       return NextResponse.json({ error: "No Email Found" }, { status: 500 });
+    }
+    // Make sure user is making his own form/s
+    if (email && session.email !== email) {
+      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
     }
     const existingUser = await prisma.user.findUnique({
       where: { email: email },
@@ -94,6 +104,13 @@ export async function POST(req, res) {
 
 export async function PATCH(req) {
   try {
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+  
+    // Checking if Session exists
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
+    }
+
     const { id, name, content, userEmail } = await req.json();
 
     if (!id || id=="" || !userEmail || userEmail=="") {
@@ -101,6 +118,10 @@ export async function PATCH(req) {
         { error: "Form ID or User Email is missing!" },
         { status: 500 }
       );
+    }
+    // Make sure user is updating his own form/s
+    if (userEmail && session.email !== userEmail) {
+      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
     }
 
     const updateForm = await prisma.form.update({
@@ -124,6 +145,13 @@ export async function PATCH(req) {
 
 export async function DELETE(req) {
   try {
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
+    // Checking if Session exists
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
+    }
+
     const { searchParams } = new URL(req.url);
     const formId = searchParams.get("formId");
     
@@ -136,7 +164,8 @@ export async function DELETE(req) {
 
     const deleteForm = await prisma.form.delete({
       where: {
-        id: formId
+        id: formId,
+        userEmail: session.email
       },
     })
 
