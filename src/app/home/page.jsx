@@ -22,7 +22,7 @@ import {
 import { Skeleton } from "@/Components/ui/skeleton";
 
 import toast from 'react-hot-toast';
-import { Trash2 } from 'lucide-react';
+import { Trash2, LockKeyholeIcon, Copy } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -117,6 +117,53 @@ export default function Home() {
         }
     }
 
+    const toggleFormStatus = async (id, status) => {
+        try {
+            const response = await axios.get(`/api/forms/status-change?formId=${id}&email=${session.user.email}&status=${status}`);
+
+            if (response.data.success) {
+                console.log('Form updated successfully:', response.data.data);
+                toast.success('Form updated Successfully!');
+                // fetchData();
+                setFormsUpdate(formsUpdate + 1);
+            } else {
+                console.error('Error updating form:', response.data.error);
+                toast.error("Error updating form.")
+            }
+        } catch (error) {
+            console.error('Error in update request:', error);
+            toast.error("Unable to update Form.")
+        }
+    }
+
+    const copyFormApi = async (id, status) => {
+        let apiString;
+        apiString = "http://localhost:3000/api/forms?formId="+id+"&public="+status;
+
+        // if (status) {
+        // } else {
+        //     apiString = "http://localhost:3000/api/forms?formId="+id;
+        // }
+        toast.success(apiString)
+
+        // try {
+        //     const response = await axios.get(`/api/forms/status-change?formId=${id}&email=${session.user.email}&status=${status}`);
+
+        //     if (response.data.success) {
+        //         console.log('Form updated successfully:', response.data.data);
+        //         toast.success('Form updated Successfully!');
+        //         // fetchData();
+        //         setFormsUpdate(formsUpdate + 1);
+        //     } else {
+        //         console.error('Error updating form:', response.data.error);
+        //         toast.error("Error updating form.")
+        //     }
+        // } catch (error) {
+        //     console.error('Error in update request:', error);
+        //     toast.error("Unable to update Form.")
+        // }
+    }
+
     return (
         <main className="p-6 h-full overflow-y-hidden">
             <div className="text-xl font-extrabold font-mono underline">
@@ -173,11 +220,23 @@ export default function Home() {
                                                 <strong>Form Type:</strong> {parsedContent?.multi_step ? "Multi Step" : "Single Step"}
                                             </div>
                                         </div>
-                                        <p className="text-center font-extrabold pb-4">{parsedContent?.formName}</p>
+                                        <p className="text-center font-extrabold pb-4">{parsedContent?.formName}<span className='text-sm font-light'> - {item.type ? "public" : "private"}</span></p>
                                     </div>
                                     {/* </a> */}
                                 </HoverCardTrigger>
-                                <HoverCardContent className="w-[100px]">
+                                <HoverCardContent className="w-fit flex gap-3">
+                                    <button onClick={() => copyFormApi(item.id, item.type)} className='p-2 border-0 rounded text-yellow-500 hover:text-white bg-white hover:bg-yellow-500 duration-200'>
+                                        <Copy />
+                                    </button>
+                                    {item.type == "false" || item.type == false ? (
+                                        <button onClick={() => toggleFormStatus(item.id, true)} className='p-2 border-0 rounded text-green-500 hover:text-white bg-white hover:bg-[green] duration-200'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock-keyhole-open"><circle cx="12" cy="16" r="1"/><rect width="18" height="12" x="3" y="10" rx="2"/><path d="M7 10V7a5 5 0 0 1 9.33-2.5"/></svg>
+                                        </button>
+                                    ) : (
+                                        <button onClick={() => toggleFormStatus(item.id, false)} className='p-2 border-0 rounded text-orange-500 hover:text-white bg-white hover:bg-[orange] duration-200'>
+                                            <LockKeyholeIcon />
+                                        </button>
+                                    )}
                                     <button onClick={() => deleteForm(item.id)} className='p-2 border-0 rounded text-red-500 hover:text-white bg-white hover:bg-[red] duration-200'>
                                         <Trash2 />
                                     </button>
