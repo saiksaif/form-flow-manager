@@ -26,14 +26,14 @@ export async function GET(req, res) {
 
     // Checking if Session exists
     if (!session) {
-      return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
+      // return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
     }
 
     if (!email && !formId) {
       return NextResponse.json({ error: "Email or FormID is required!" }, { status: 500 });
     }
     // Make sure user is getting his own form/s
-    if (email && session.email !== email) {
+    if (email && session && session.email !== email) {
       return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
     }
     
