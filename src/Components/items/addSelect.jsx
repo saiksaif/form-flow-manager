@@ -19,7 +19,7 @@ const AddSelect = ({ data, update, tags }) => {
   // Function to handle adding a step
   const handleAddStep = () => {
     // Validate input values
-    if (selectLabelValue === '' || selectNameValue === '' || selectedTag === '') {
+    if (selectLabelValue === '' || selectNameValue === '') {
       alert('Cannot add field without details!');
       return;
     }
