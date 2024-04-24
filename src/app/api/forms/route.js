@@ -18,6 +18,7 @@ export async function GET(req, res) {
           type: true
         }
       });
+      pform.content = JSON.parse(pform.content);
       return NextResponse.json({ success: true, data: pform });
     }
     console.log("got late")
